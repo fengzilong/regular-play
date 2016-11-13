@@ -7,7 +7,7 @@ play( Button, module )
 	.add( 'button with text', '<Button text="click me"></Button>' )
 	.add( 'button loading', {
 		template: `
-			<Button text="loading button" on-click="{ this.onClick() }"></Button>
+			<Button text="loading" loading on-click="{ this.onClick() }"></Button>
 		`,
 		onClick() {
 			this.$log( 'clicked' );

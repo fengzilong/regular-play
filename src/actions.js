@@ -5,7 +5,13 @@ export default {
 	log( { commit }, payload ) {
 		commit( 'console/log', payload );
 	},
+	clearLogs( { commit }, payload ) {
+		commit( 'console/clear' );
+	},
 	switchTab( { commit }, payload ) {
 		commit( 'tabs/select', payload );
-	}
+	},
+	toggleTabs( { commit } ) {
+		commit( 'layout/toggleTabs' );
+	},
 };

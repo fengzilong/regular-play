@@ -6,7 +6,6 @@ export default {
 	},
 	reducers: {
 		log( state, payload ) {
-			console.log( payload );
 			state.logs.push( payload );
 
 			const last = state.mergedLogs[ state.mergedLogs.length - 1 ];
@@ -18,6 +17,10 @@ export default {
 					count: 1,
 				} );
 			}
+		},
+		clear( state ) {
+			state.logs.length = 0;
+			state.mergedLogs.length = 0;
 		}
 	},
 }

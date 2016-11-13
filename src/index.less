@@ -44,14 +44,43 @@ body {
 		/* Console */
 		.tabs-wrapper {
 			width: 100%;
-			height: 200px;
 			border-top: solid 1px #DDD;
 			display: flex;
 			flex-direction: column;
 
+			&.open {
+				.tabs-body {
+					flex: 1;
+					overflow: hidden;
+					height: 170px;
+				}
+			}
+
+			.tabs-header {
+				display: flex;
+				padding: 0 10px;
+				border-bottom: solid 1px #DDD;
+				background-color: #F8F8F8;
+
+				.tabs {
+					flex: 1;
+				}
+
+				.tabs-header__toolbar {
+					font-size: 18px;
+
+					.tabs-header__toolbar_icon {
+						display: inline-block;
+						height: 30px;
+						line-height: 30px;
+						cursor: pointer;
+					}
+				}
+			}
+
 			.tabs-body {
-				flex: 1;
-				overflow: hidden;
+				height: 0;
+				transition: height ease .36s;
 			}
 		}
 	}
@@ -106,16 +135,19 @@ body {
 .tabs {
 	display: flex;
 	font-size: 15px;
-	border-bottom: solid 1px #DDD;
-	background-color: #F8F8F8;
 
 	.tab {
 		color: #666;
-		padding: 7px 10px;
+		height: 30px;
+		line-height: 30px;
 		text-decoration: none;
 
 		&.selected {
 			color: #000;
+		}
+
+		&:not(:last-child) {
+			margin-right: 10px;
 		}
 	}
 }
@@ -127,9 +159,10 @@ body {
 
 	.console-logs {
 		.console-log {
-			padding: 10px 0;
 			border-bottom: solid 1px #efefef;
 			color: #f039b9;
+			height: 40px;
+			line-height: 40px;
 
 			.console-log_count {
 				display: inline-block;

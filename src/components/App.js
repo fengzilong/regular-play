@@ -7,7 +7,8 @@ export default {
 	computed: {
 		tabsSource: 'tabsSource',
 		selectedTabKey: 'selectedTabKey',
-		logs: 'consoleMergedLogs'
+		logs: 'consoleMergedLogs',
+		isTabsOpened: 'isTabsOpened',
 	},
 	components: {
 		Sidebar,
@@ -26,12 +27,25 @@ export default {
 					<iframe ref="v" src="./preview.html" frameborder="0"></iframe>
 				</div>
 
-				<div class="tabs-wrapper">
-					<Tabs
-						source="{ tabsSource }"
-						selected="{ selectedTabKey }"
-						on-change="{ this.dispatch( 'switchTab', $event ) }"
-					></Tabs>
+				<div class="tabs-wrapper { isTabsOpened ? 'open' : '' }">
+					<div class="tabs-header">
+						<Tabs
+							source="{ tabsSource }"
+							selected="{ selectedTabKey }"
+							on-change="{ this.dispatch( 'switchTab', $event ) }"
+						></Tabs>
+						<div class="tabs-header__toolbar">
+							{#if selectedTabKey === 'console'}
+							<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'clearLogs' ) }">&#xe603;</span>
+							{/if}
+
+							{#if isTabsOpened}
+							<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'toggleTabs' ) }">&#xe65a;</span>
+							{#else}
+							<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'toggleTabs' ) }">&#xe65c;</span>
+							{/if}
+						</div>
+					</div>
 					<div class="tabs-body">
 						{#if selectedTabKey === 'console'}
 						<Console logs="{ logs }"></Console>
@@ -87,6 +101,9 @@ export default {
 		iframeWindow.postMessage( {
 			type: 'ROUTE_UPDATE',
 			payload: { param }
-		}, '*' )
+		}, '*' );
+
+		// clear logs
+		this.dispatch( 'clearLogs' );
 	},
 };

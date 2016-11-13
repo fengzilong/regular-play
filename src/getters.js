@@ -4,4 +4,5 @@ export default {
 	selectedTabKey: state => state.tabs.selected,
 	consoleLogs: state => state.console.logs,
 	consoleMergedLogs: state => state.console.mergedLogs,
+	isTabsOpened: state => state.layout.isTabsOpened,
 };
