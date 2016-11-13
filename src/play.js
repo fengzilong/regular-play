@@ -8,9 +8,13 @@ class Play {
 	constructor( Actor, m ) {
 		this.Actor = Actor;
 		this.m = m;
+
+		return this;
 	}
 	name( name ) {
 		this.name = name;
+
+		return this;
 	}
 	add( description, template ) {
 		// some checks
@@ -48,6 +52,7 @@ class Play {
 		m.exports.actors[ actorName ].push( {
 			name: actorName, description, Spot
 		} );
-	},
 
+		return this;
+	}
 }

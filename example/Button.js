@@ -1,11 +1,11 @@
-import R from 'regularjs';
+import Regular from 'regularjs';
 
 const Button = Regular.extend( {
 	template: `
-		<button>{ text } { loading ? '...' : '' }</button>
+		<button on-click="{ this.onClick() }">{ text } { loading ? '...' : '' }</button>
 	`,
-	config() {
-
+	onClick() {
+		this.$emit( 'click' );
 	},
 } );
 
