@@ -1,8 +1,6 @@
 import './preview.less';
 
 export default function( { actors } ) {
-	console.log( actors );
-
 	parent.postMessage( {
 		type: 'SET_ACTORS',
 		payload: JSON.stringify( actors )
@@ -17,11 +15,15 @@ export default function( { actors } ) {
 
 	let previous;
 	window.addEventListener( 'message', ( { data } ) => {
-		console.log( data, 'received' );
 		const { type, payload } = data;
 
 		if ( type === 'ROUTE_UPDATE' ) {
 			const { name, description } = payload.param;
+
+			if ( !actors[ name ] ) {
+				return;
+			}
+
 			const filtered = actors[ name ].filter( v => v.description === description );
 			const Spot = filtered[ 0 ] && filtered[ 0 ].Spot;
 

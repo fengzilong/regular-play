@@ -13,7 +13,7 @@ const _  = {
 
 const baseConfig = {
 	output: {
-		path: _.cwd( 'dist' ),
+		path: _.cwd( 'public' ),
 		filename: '[name]-[chunkhash:8].js',
 		publicPath: './'
 	},

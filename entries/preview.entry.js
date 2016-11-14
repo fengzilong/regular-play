@@ -1,4 +1,4 @@
 import preview from '../src/preview';
-import buttonplay from '../example/button.play';
+import p from './example.play';
 
-preview( buttonplay );
+preview( p );

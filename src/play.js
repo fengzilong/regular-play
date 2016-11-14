@@ -4,6 +4,12 @@ export default function( Actor, m ) {
 	return new Play( Actor, m );
 }
 
+export const merge = function( modules, m ) {
+	m.exports.actors = modules.reduce( ( current, next ) => {
+		return Object.assign( {}, current, next.actors )
+	}, {} );
+};
+
 class Play {
 	constructor( Actor, m ) {
 		this.Actor = Actor;
