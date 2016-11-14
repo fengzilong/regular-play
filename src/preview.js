@@ -26,6 +26,7 @@ export default function( { actors } ) {
 
 			const filtered = actors[ name ].filter( v => v.description === description );
 			const Spot = filtered[ 0 ] && filtered[ 0 ].Spot;
+			const code = filtered[ 0 ] && filtered[ 0 ].code;
 
 			if ( Spot ) {
 				// clean
@@ -39,13 +40,20 @@ export default function( { actors } ) {
 				// inject
 				previous = new Spot().$inject( '#app' );
 			}
+
+			if ( code ) {
+				parent.postMessage( {
+					type: 'SET_CODE',
+					payload: code,
+				}, location.origin );
+			}
 		}
 	}, false );
 
 	function $log( message ) {
 		parent.postMessage( {
 			type: 'LOG',
-			payload: message
+			payload: message,
 		}, location.origin );
 	}
 }

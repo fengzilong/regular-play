@@ -9,6 +9,7 @@ export default {
 		selectedTabKey: 'selectedTabKey',
 		logs: 'consoleMergedLogs',
 		isTabsOpened: 'isTabsOpened',
+		currentCode: 'currentCode',
 	},
 	components: {
 		Sidebar,
@@ -50,7 +51,7 @@ export default {
 						{#if selectedTabKey === 'console'}
 						<Console logs="{ logs }"></Console>
 						{#elseif selectedTabKey === 'code'}
-						<Code></Code>
+						<Code code="{ currentCode }"></Code>
 						{/if}
 					</div>
 				</div>
@@ -72,6 +73,8 @@ export default {
 				this.onRouteChange();
 			} else if ( type === 'LOG' ) {
 				this.dispatch( 'log', payload );
+			} else if ( type === 'SET_CODE' ) {
+				this.dispatch( 'setCode', payload );
 			}
 		};
 

@@ -5,4 +5,5 @@ export default {
 	consoleLogs: state => state.console.logs,
 	consoleMergedLogs: state => state.console.mergedLogs,
 	isTabsOpened: state => state.layout.isTabsOpened,
+	currentCode: state => state.code.current,
 };

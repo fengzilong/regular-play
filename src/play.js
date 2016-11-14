@@ -42,10 +42,13 @@ class Play {
 		const Ctor = getCtor( Actor );
 
 		let Spot;
+		let code;
 		if ( typeof template === 'object' ) {
 			Spot = Ctor.extend( template );
+			code = template.template;
 		} else if ( typeof template === 'string' ) {
 			Spot = Ctor.extend( { template } );
+			code = template;
 		}
 
 		// register Actor
@@ -56,7 +59,7 @@ class Play {
 		m.exports.actors = m.exports.actors || {};
 		m.exports.actors[ actorName ] = m.exports.actors[ actorName ] || [];
 		m.exports.actors[ actorName ].push( {
-			name: actorName, description, Spot
+			name: actorName, description, Spot, code
 		} );
 
 		return this;
