@@ -109,6 +109,7 @@
 						return v.description === description;
 					});
 					var Spot = filtered[0] && filtered[0].Spot;
+					var code = filtered[0] && filtered[0].code;
 
 					if (Spot) {
 						// clean
@@ -121,6 +122,13 @@
 
 						// inject
 						previous = new Spot().$inject('#app');
+					}
+
+					if (code) {
+						parent.postMessage({
+							type: 'SET_CODE',
+							payload: code
+						}, location.origin);
 					}
 				}();
 
@@ -251,12 +259,13 @@
 				var Ctor = (0, _getCtor2.default)(Actor);
 
 				var Spot = void 0;
-				var tpl = void 0;
+				var code = void 0;
 				if ((typeof template === 'undefined' ? 'undefined' : _typeof(template)) === 'object') {
 					Spot = Ctor.extend(template);
-					tpl = template.template;
+					code = template.template;
 				} else if (typeof template === 'string') {
 					Spot = Ctor.extend({ template: template });
+					code = template;
 				}
 
 				// register Actor
@@ -267,7 +276,7 @@
 				m.exports.actors = m.exports.actors || {};
 				m.exports.actors[actorName] = m.exports.actors[actorName] || [];
 				m.exports.actors[actorName].push({
-					name: actorName, description: description, Spot: Spot
+					name: actorName, description: description, Spot: Spot, code: code
 				});
 
 				return this;
