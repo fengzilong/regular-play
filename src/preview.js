@@ -1,4 +1,4 @@
-import './preview.less';
+import './css/preview.less';
 
 export default function( { actors } ) {
 	parent.postMessage( {

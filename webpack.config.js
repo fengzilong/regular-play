@@ -55,7 +55,7 @@ module.exports = [
 		plugins: [
 			new HtmlWebpackPlugin( {
 				filename: 'index.html',
-				template: 'src/index.html',
+				template: 'src/templates/index.html',
 			} ),
 			new ExtractTextPlugin('index-[contenthash:8].css')
 		]
@@ -67,7 +67,7 @@ module.exports = [
 		plugins: [
 			new HtmlWebpackPlugin( {
 				filename: 'preview.html',
-				template: 'src/preview.html',
+				template: 'src/templates/preview.html',
 			} ),
 			new ExtractTextPlugin('preview-[contenthash:8].css')
 		]

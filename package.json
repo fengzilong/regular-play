@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "description": "play with your regular components",
   "main": "dist/play.js",
+  "scripts": {
+    "dev": "webpack -w"
+  },
   "repository": {
     "url": "git@github.com:fengzilong/regular-play.git",
     "type": "git"
