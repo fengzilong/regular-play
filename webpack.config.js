@@ -42,34 +42,30 @@ const baseConfig = {
 		return [ autoprefixer ]
 	},
 	resolve: {
+		alias: {
+			'play-entry': _.cwd( './play/index.js' ),
+		},
 		extensions: [ '', '.js' ]
 	},
 	externals: {},
 };
 
-module.exports = [
-	Object.assign( {}, baseConfig, {
-		entry: {
-			index: _.cwd( 'entries/app.entry.js' )
-		},
-		plugins: [
-			new HtmlWebpackPlugin( {
-				filename: 'index.html',
-				template: 'src/templates/index.html',
-			} ),
-			new ExtractTextPlugin('index-[contenthash:8].css')
-		]
-	} ),
-	Object.assign( {}, baseConfig, {
-		entry: {
-			preview: _.cwd( 'entries/preview.entry.js' )
-		},
-		plugins: [
-			new HtmlWebpackPlugin( {
-				filename: 'preview.html',
-				template: 'src/templates/preview.html',
-			} ),
-			new ExtractTextPlugin('preview-[contenthash:8].css')
-		]
-	} ),
-];
+module.exports = Object.assign( {}, baseConfig, {
+	entry: {
+		app: _.cwd( 'entries/app.js' ),
+		preview: _.cwd( 'entries/preview.js' )
+	},
+	plugins: [
+		new HtmlWebpackPlugin( {
+			filename: 'index.html',
+			chunks: [ 'app' ],
+			template: 'src/templates/index.html',
+		} ),
+		new HtmlWebpackPlugin( {
+			filename: 'preview.html',
+			chunks: [ 'preview' ],
+			template: 'src/templates/preview.html',
+		} ),
+		new ExtractTextPlugin('[name]-[contenthash:8].css')
+	]
+} );

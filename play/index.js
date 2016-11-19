@@ -4,6 +4,6 @@ const load = requireContext => {
 	return requireContext.keys().map( requireContext );
 };
 
-const plays = load( require.context( '../example', true, /\.play\.js$/ ) );
+const plays = load( require.context( './', true, /\.play\.js$/ ) );
 
 merge( plays, module );
