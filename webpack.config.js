@@ -59,12 +59,12 @@ module.exports = Object.assign( {}, baseConfig, {
 		new HtmlWebpackPlugin( {
 			filename: 'index.html',
 			chunks: [ 'app' ],
-			template: 'src/templates/index.html',
+			template: 'src/template.html',
 		} ),
 		new HtmlWebpackPlugin( {
 			filename: 'preview.html',
 			chunks: [ 'preview' ],
-			template: 'src/templates/preview.html',
+			template: 'src/template.html',
 		} ),
 		new ExtractTextPlugin('[name]-[contenthash:8].css')
 	]
