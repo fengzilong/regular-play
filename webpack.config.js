@@ -15,7 +15,8 @@ const baseConfig = {
 	output: {
 		path: _.cwd( 'dist' ),
 		filename: '[name].js',
-		publicPath: './'
+		publicPath: './',
+		libraryTarget: 'umd',
 	},
 	module: {
 		loaders: [
@@ -50,7 +51,8 @@ const baseConfig = {
 module.exports = Object.assign( {}, baseConfig, {
 	entry: {
 		app: _.cwd( './src/app.js' ),
-		preview: _.cwd( './src/preview.js' )
+		preview: _.cwd( './src/preview.js' ),
+		play: _.cwd( './src/play.js' ),
 	},
 	plugins: [
 		new ExtractTextPlugin('[name].css')
