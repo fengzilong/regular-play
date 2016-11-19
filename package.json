@@ -2,9 +2,11 @@
   "name": "regular-play",
   "version": "0.0.0",
   "description": "play with your regular components",
-  "main": "dist/play.js",
+  "main": "dist/app.js",
   "scripts": {
-    "dev": "webpack -w"
+    "dev": "webpack --config ./webpack.config.ghpages.js -w",
+    "dist": "webpack",
+    "deploy": "webpack --config ./webpack.config.ghpages.js && node ./scripts/gh-pages.js"
   },
   "repository": {
     "url": "git@github.com:fengzilong/regular-play.git",

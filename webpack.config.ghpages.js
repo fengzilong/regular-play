@@ -13,8 +13,8 @@ const _  = {
 
 const baseConfig = {
 	output: {
-		path: _.cwd( 'dist' ),
-		filename: '[name].js',
+		path: _.cwd( 'public' ),
+		filename: '[name]-[chunkhash:8].js',
 		publicPath: './'
 	},
 	module: {
@@ -42,6 +42,9 @@ const baseConfig = {
 		return [ autoprefixer ]
 	},
 	resolve: {
+		alias: {
+			'play-entry': _.cwd( './play/index.js' ),
+		},
 		extensions: [ '', '.js' ]
 	},
 	externals: {},
@@ -49,10 +52,20 @@ const baseConfig = {
 
 module.exports = Object.assign( {}, baseConfig, {
 	entry: {
-		app: _.cwd( './src/app.js' ),
-		preview: _.cwd( './src/preview.js' )
+		app: _.cwd( 'entries/app.js' ),
+		preview: _.cwd( 'entries/preview.js' )
 	},
 	plugins: [
-		new ExtractTextPlugin('[name].css')
+		new HtmlWebpackPlugin( {
+			filename: 'index.html',
+			chunks: [ 'app' ],
+			template: 'src/template.html',
+		} ),
+		new HtmlWebpackPlugin( {
+			filename: 'preview.html',
+			chunks: [ 'preview' ],
+			template: 'src/template.html',
+		} ),
+		new ExtractTextPlugin('[name]-[contenthash:8].css')
 	]
 } );
