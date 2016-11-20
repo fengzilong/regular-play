@@ -1,19 +1,17 @@
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-
 const baseConfig = {
 	module: {
 		loaders: [
 			{
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader'),
+				loader: 'style-loader!css-loader!postcss-loader',
 			},
 			{
 				test: /\.mcss$/,
-				loader: ExtractTextPlugin.extract('style-loader', 'css-loader!mcss-loader!postcss-loader'),
+				loader: 'style-loader!css-loader!mcss-loader!postcss-loader',
 			},
 			{
 				test: /\.less$/,
-				loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader!postcss-loader'),
+				loader: 'style-loader!css-loader!less-loader!postcss-loader',
 			},
 			{
 				test: /\.js$/,
