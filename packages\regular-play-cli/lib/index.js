@@ -7,13 +7,11 @@ const DEFAULT_PORT = 9000;
 
 module.exports = function( options ) {
 	options = options || {};
-	
+
 	const webpackConfig = makeWebpackConfig( {
 		entry: _.cwd( './play/index.js' ),
 		dist: _.cwd( './dist-play' ),
 	} );
-
-	console.log( webpackConfig );
 
 	server( webpackConfig, {
 		port: options.port || DEFAULT_PORT,

@@ -1,5 +1,5 @@
+const webpack = require( 'webpack' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 const merge = require( 'webpack-merge' );
 const path = require( 'path' );
 const baseConfig = require( './webpack-base-config' );
@@ -10,9 +10,13 @@ module.exports = function( options ) {
 	const outputPath = options.dist;
 
 	const config = merge.smart( baseConfig, {
+		devtool: 'eval-source-map',
 		entry: {
 			app: _.dir( './entries/app.js' ),
-			preview: _.dir( './entries/preview.js' ),
+			preview: [
+				_.dir( './entries/preview.js' ),
+				require.resolve( 'webpack-hot-middleware/client' ) + '?reload=true',
+			],
 		},
 		resolve: {
 			alias: {
@@ -21,7 +25,7 @@ module.exports = function( options ) {
 		},
 		output: {
 			path: outputPath,
-			filename: '[name]-[chunkhash:8].js',
+			filename: '[name]-[hash:8].js',
 			publicPath: './'
 		},
 		plugins: [
@@ -35,7 +39,7 @@ module.exports = function( options ) {
 				chunks: [ 'preview' ],
 				template: _.dir( './template.html' ),
 			} ),
-			new ExtractTextPlugin('[name]-[contenthash:8].css')
+			new webpack.HotModuleReplacementPlugin(),
 		]
 	} );
 
