@@ -33,9 +33,9 @@
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.2",
-    "webpack-merge": "^0.17.0"
+    "webpack-merge": "^0.17.0",
+    "regularjs": "^0.5.2"
   },
   "devDependencies": {
-    "regularjs": "^0.5.2"
   }
 }
