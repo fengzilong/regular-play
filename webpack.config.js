@@ -45,7 +45,14 @@ const baseConfig = {
 	resolve: {
 		extensions: [ '', '.js' ]
 	},
-	externals: {},
+	externals: {
+		regularjs: {
+			root: 'Regular',
+			commonjs: 'regularjs',
+			commonjs2: 'regularjs',
+			amd: 'regularjs'
+		}
+	},
 };
 
 module.exports = Object.assign( {}, baseConfig, {

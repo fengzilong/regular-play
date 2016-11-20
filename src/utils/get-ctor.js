@@ -1,3 +1,5 @@
+import Regular from 'regularjs';
+
 export default Comp => {
-	return Comp.prototype.constructor;
+	return Regular;
 };

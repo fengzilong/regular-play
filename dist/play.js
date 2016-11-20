@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
+		module.exports = factory(require("regularjs"));
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define(["regularjs"], factory);
 	else {
-		var a = factory();
+		var a = typeof exports === 'object' ? factory(require("regularjs")) : factory(root["Regular"]);
 		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
 	}
-})(this, function() {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_31__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -152,17 +152,30 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 
 /***/ 30:
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
 
+	var _regularjs = __webpack_require__(31);
+
+	var _regularjs2 = _interopRequireDefault(_regularjs);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	exports.default = function (Comp) {
-		return Comp.prototype.constructor;
+		return _regularjs2.default;
 	};
+
+/***/ },
+
+/***/ 31:
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_31__;
 
 /***/ }
 
