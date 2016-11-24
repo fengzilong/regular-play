@@ -9,7 +9,7 @@ import codeModel from './reo/models/code';
 
 import './css/index.less';
 import './fonts/iconfont.css';
-import './css/atom-one-light.min.css';
+import './css/highlight.css';
 
 export default function( { actors = [] } = {} ) {
 	const app = reo();

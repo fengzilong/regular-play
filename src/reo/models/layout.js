@@ -2,8 +2,8 @@ export default {
 	name: 'layout',
 	state: {
 		isTabsOpened: true,
-		layout: 'pc',
-		layouts: [ 'pc', 'mobile' ],
+		layout: 'desktop',
+		layouts: [ 'desktop', 'mobile' ],
 	},
 	reducers: {
 		toggleTabs( state ) {

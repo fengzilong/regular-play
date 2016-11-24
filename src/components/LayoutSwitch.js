@@ -7,7 +7,7 @@ export default {
 		<button
 			class="layout-switch-button"
 			on-click="{ this.onChangeLayout() }"
-		>switch to <strong>{ nextLayout }</strong> mode</button>
+		>switch to <strong>{ nextLayout }</strong></button>
 	`,
 	config() {
 		const layouts = this.$get( 'layouts' );

@@ -21,6 +21,7 @@ body {
 	.sidebar-wrapper {
 		display: flex;
 		flex-direction: column;
+		flex-shrink: 0;
 		width: 230px;
 		height: 100vh;
 		border-right: solid 1px #DDD;
@@ -219,4 +220,12 @@ body {
 
 .code {
 	padding: 10px;
+
+	pre {
+		margin: 0;
+
+		code {
+			font-family: Consolas, Lucida Console, Menlo, monospace, '.SFNSDisplay-Regular', 'Helvetica Neue', 'Lucida Grande', sans-serif;
+		}
+	}
 }
