@@ -46,20 +46,317 @@
 
 	'use strict';
 
-	var _preview = __webpack_require__(1);
+	var _preview = __webpack_require__(32);
 
 	var _preview2 = _interopRequireDefault(_preview);
 
-	var _example = __webpack_require__(6);
+	var _playEntry = __webpack_require__(35);
 
-	var _example2 = _interopRequireDefault(_example);
+	var _playEntry2 = _interopRequireDefault(_playEntry);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	(0, _preview2.default)(_example2.default);
+	(0, _preview2.default)(_playEntry2.default);
 
 /***/ },
-/* 1 */
+/* 1 */,
+/* 2 */,
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(4).nextTick;
+	var apply = Function.prototype.apply;
+	var slice = Array.prototype.slice;
+	var immediateIds = {};
+	var nextImmediateId = 0;
+
+	// DOM APIs, for completeness
+
+	exports.setTimeout = function() {
+	  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+	};
+	exports.setInterval = function() {
+	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+	};
+	exports.clearTimeout =
+	exports.clearInterval = function(timeout) { timeout.close(); };
+
+	function Timeout(id, clearFn) {
+	  this._id = id;
+	  this._clearFn = clearFn;
+	}
+	Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+	Timeout.prototype.close = function() {
+	  this._clearFn.call(window, this._id);
+	};
+
+	// Does not start the time, just sets up the members needed.
+	exports.enroll = function(item, msecs) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = msecs;
+	};
+
+	exports.unenroll = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = -1;
+	};
+
+	exports._unrefActive = exports.active = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+
+	  var msecs = item._idleTimeout;
+	  if (msecs >= 0) {
+	    item._idleTimeoutId = setTimeout(function onTimeout() {
+	      if (item._onTimeout)
+	        item._onTimeout();
+	    }, msecs);
+	  }
+	};
+
+	// That's not how node.js implements it but the exposed api is the same.
+	exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+	  var id = nextImmediateId++;
+	  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+	  immediateIds[id] = true;
+
+	  nextTick(function onNextTick() {
+	    if (immediateIds[id]) {
+	      // fn.call() is faster so we optimize for the common use-case
+	      // @see http://jsperf.com/call-apply-segu
+	      if (args) {
+	        fn.apply(null, args);
+	      } else {
+	        fn.call(null);
+	      }
+	      // Prevent ids from leaking
+	      exports.clearImmediate(id);
+	    }
+	  });
+
+	  return id;
+	};
+
+	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+	  delete immediateIds[id];
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3).setImmediate, __webpack_require__(3).clearImmediate))
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	// shim for using process in browser
+	var process = module.exports = {};
+
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
+	(function () {
+	    try {
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
+	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
+	    }
+	    try {
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
+	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
+	    }
+	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
+	        return setTimeout(fun, 0);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedSetTimeout(fun, 0);
+	    } catch(e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            return cachedSetTimeout.call(null, fun, 0);
+	        } catch(e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+	            return cachedSetTimeout.call(this, fun, 0);
+	        }
+	    }
+
+
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
+	        return clearTimeout(marker);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedClearTimeout(marker);
+	    } catch (e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            return cachedClearTimeout.call(null, marker);
+	        } catch (e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+	            return cachedClearTimeout.call(this, marker);
+	        }
+	    }
+
+
+
+	}
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = runTimeout(cleanUpNextTick);
+	    draining = true;
+
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    runClearTimeout(timeout);
+	}
+
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        runTimeout(drainQueue);
+	    }
+	};
+
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+
+	function noop() {}
+
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
+
+/***/ },
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -144,36 +441,34 @@
 		}
 	};
 
-	__webpack_require__(2);
+	__webpack_require__(33);
 
 /***/ },
-/* 2 */
+/* 33 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */
+/* 34 */,
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
-	var _play = __webpack_require__(8);
+	var _play = __webpack_require__(37);
 
 	var load = function load(requireContext) {
 		return requireContext.keys().map(requireContext);
 	};
 
-	var plays = load(__webpack_require__(10));
+	var plays = load(__webpack_require__(66));
 
 	(0, _play.merge)(plays, module);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36)(module)))
 
 /***/ },
-/* 7 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -189,7 +484,7 @@
 
 
 /***/ },
-/* 8 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -207,7 +502,7 @@
 		return new Play(Actor, m);
 	};
 
-	var _getCtor = __webpack_require__(9);
+	var _getCtor = __webpack_require__(38);
 
 	var _getCtor2 = _interopRequireDefault(_getCtor);
 
@@ -287,76 +582,7 @@
 	}();
 
 /***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	exports.default = function (Comp) {
-		return Comp.prototype.constructor;
-	};
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var map = {
-		"./button.play.js": 11,
-		"./input.play.js": 45
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 10;
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _play = __webpack_require__(8);
-
-	var _play2 = _interopRequireDefault(_play);
-
-	var _Button = __webpack_require__(12);
-
-	var _Button2 = _interopRequireDefault(_Button);
-
-	__webpack_require__(43);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	(0, _play2.default)(_Button2.default, module).name('Button')
-	// .displayName( 'MyAwesomeButton' )
-	.add('button with text', {
-		template: '\n\t\t\t<Button on-click="{ this.onPrimaryClick() }" primary sm>Click Me</Button>\n\t\t\t<Button on-click="{ this.onClick() }" sm>Click Me</Button>\n\t\t',
-		onPrimaryClick: function onPrimaryClick() {
-			this.$log('primary clicked');
-		},
-		onClick: function onClick() {
-			this.$log('clicked');
-		}
-	}).add('button disabled', {
-		template: '\n\t\t\t<Button disabled primary sm>Disabled</Button>\n\t\t\t<Button disabled sm>Disabled</Button>\n\t\t'
-	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)(module)))
-
-/***/ },
-/* 12 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -365,98 +591,34 @@
 		value: true
 	});
 
-	var _regularjs = __webpack_require__(13);
+	var _regularjs = __webpack_require__(39);
 
 	var _regularjs2 = _interopRequireDefault(_regularjs);
 
-	var _nextTick = __webpack_require__(42);
-
-	var _nextTick2 = _interopRequireDefault(_nextTick);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Button = _regularjs2.default.extend({
-		template: '\n\t\t<button ref="b" class="r-button { primary ? \'r-button-primary\' : \'r-button-basic\' } { sm ? \'r-button-sm\' : \'\' } { disabled ? \'r-button-disabled\' : \'\' }" on-mouseup="{ this.onMouseUp( $event ) }">\n\t\t\t<div\n\t\t\t\tref="w"\n\t\t\t\tclass="r-button-wave  { pressed ? \'pressed\' : \'r-button-wave-hidden\' }"\n\t\t\t\tstyle="width: { waveWidth }px;height: { waveHeight }px;top: { waveTop }px;left: { waveLeft }px;"\n\t\t\t></div>\n\t\t\t<div class="r-button-text">\n\t\t\t\t{#inc this.$body}\n\t\t\t</div>\n\t\t</button>\n\t',
-		config: function config() {
-			this.data.ripple = this.data.ripple !== false;
-		},
-		init: function init() {
-			var _this = this;
-
-			var handleAnimationEnd = function handleAnimationEnd() {
-				if (_this.data.pressed !== false) {
-					_this.data.pressed = false;
-					_this.$update();
-				}
-			};
-
-			this.$refs.w && this.$refs.w.addEventListener('webkitAnimationEnd', handleAnimationEnd, false);
-
-			this.$on('$destroy', function () {
-				_this.$refs.w.removeEventListener('webkitAnimationEnd', handleAnimationEnd, false);
-			});
-		},
-		onMouseUp: function onMouseUp(e) {
-			var _this2 = this;
-
-			if (this.data.disabled) {
-				return;
-			}
-
-			this.$emit('click');
-
-			if (!this.data.ripple) {
-				return;
-			}
-
-			var target = this.$refs.b;
-			var pageX = e.pageX;
-			var pageY = e.pageY;
-			var scrollY = window.scrollY;
-
-			var rect = target.getBoundingClientRect();
-			var top = rect.top;
-			var left = rect.left;
-			var width = rect.width;
-
-			var offsetX = pageX - left;
-			var offsetY = pageY - top - scrollY;
-
-			this.data.waveTop = offsetY - width / 2;
-			this.data.waveLeft = offsetX - width / 2;
-			this.data.waveWidth = width;
-			this.data.waveHeight = width;
-
-			this.data.pressed = false;
-			this.$update();
-
-			(0, _nextTick2.default)(function () {
-				_this2.data.pressed = true;
-				_this2.$update();
-			});
-		}
-	});
-
-	exports.default = Button;
+	exports.default = function (Comp) {
+		return _regularjs2.default;
+	};
 
 /***/ },
-/* 13 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var env =  __webpack_require__(14);
-	var config = __webpack_require__(20); 
-	var Regular = module.exports = __webpack_require__(21);
+	var env =  __webpack_require__(40);
+	var config = __webpack_require__(44); 
+	var Regular = module.exports = __webpack_require__(45);
 	var Parser = Regular.Parser;
 	var Lexer = Regular.Lexer;
 
 	if(env.browser){
-	    __webpack_require__(37);
-	    __webpack_require__(40);
-	    __webpack_require__(41);
-	    Regular.dom = __webpack_require__(26);
+	    __webpack_require__(61);
+	    __webpack_require__(64);
+	    __webpack_require__(65);
+	    Regular.dom = __webpack_require__(50);
 	}
 	Regular.env = env;
-	Regular.util = __webpack_require__(15);
+	Regular.util = __webpack_require__(41);
 	Regular.parse = function(str, options){
 	  options = options || {};
 
@@ -473,12 +635,12 @@
 
 
 /***/ },
-/* 14 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// some fixture test;
 	// ---------------
-	var _ = __webpack_require__(15);
+	var _ = __webpack_require__(41);
 	exports.svg = (function(){
 	  return typeof document !== "undefined" && document.implementation.hasFeature( "http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1" );
 	})();
@@ -491,15 +653,15 @@
 
 
 /***/ },
-/* 15 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global, setImmediate) {__webpack_require__(18)();
+	/* WEBPACK VAR INJECTION */(function(global, setImmediate) {__webpack_require__(42)();
 
 
 
 	var _  = module.exports;
-	var entities = __webpack_require__(19);
+	var entities = __webpack_require__(43);
 	var slice = [].slice;
 	var o2str = ({}).toString;
 	var win = typeof window !=='undefined'? window: global;
@@ -1039,278 +1201,10 @@
 
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(16).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(3).setImmediate))
 
 /***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(17).nextTick;
-	var apply = Function.prototype.apply;
-	var slice = Array.prototype.slice;
-	var immediateIds = {};
-	var nextImmediateId = 0;
-
-	// DOM APIs, for completeness
-
-	exports.setTimeout = function() {
-	  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-	};
-	exports.setInterval = function() {
-	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-	};
-	exports.clearTimeout =
-	exports.clearInterval = function(timeout) { timeout.close(); };
-
-	function Timeout(id, clearFn) {
-	  this._id = id;
-	  this._clearFn = clearFn;
-	}
-	Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-	Timeout.prototype.close = function() {
-	  this._clearFn.call(window, this._id);
-	};
-
-	// Does not start the time, just sets up the members needed.
-	exports.enroll = function(item, msecs) {
-	  clearTimeout(item._idleTimeoutId);
-	  item._idleTimeout = msecs;
-	};
-
-	exports.unenroll = function(item) {
-	  clearTimeout(item._idleTimeoutId);
-	  item._idleTimeout = -1;
-	};
-
-	exports._unrefActive = exports.active = function(item) {
-	  clearTimeout(item._idleTimeoutId);
-
-	  var msecs = item._idleTimeout;
-	  if (msecs >= 0) {
-	    item._idleTimeoutId = setTimeout(function onTimeout() {
-	      if (item._onTimeout)
-	        item._onTimeout();
-	    }, msecs);
-	  }
-	};
-
-	// That's not how node.js implements it but the exposed api is the same.
-	exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
-	  var id = nextImmediateId++;
-	  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
-
-	  immediateIds[id] = true;
-
-	  nextTick(function onNextTick() {
-	    if (immediateIds[id]) {
-	      // fn.call() is faster so we optimize for the common use-case
-	      // @see http://jsperf.com/call-apply-segu
-	      if (args) {
-	        fn.apply(null, args);
-	      } else {
-	        fn.call(null);
-	      }
-	      // Prevent ids from leaking
-	      exports.clearImmediate(id);
-	    }
-	  });
-
-	  return id;
-	};
-
-	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
-	  delete immediateIds[id];
-	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16).setImmediate, __webpack_require__(16).clearImmediate))
-
-/***/ },
-/* 17 */
-/***/ function(module, exports) {
-
-	// shim for using process in browser
-	var process = module.exports = {};
-
-	// cached from whatever global is present so that test runners that stub it
-	// don't break things.  But we need to wrap it in a try catch in case it is
-	// wrapped in strict mode code which doesn't define any globals.  It's inside a
-	// function because try/catches deoptimize in certain engines.
-
-	var cachedSetTimeout;
-	var cachedClearTimeout;
-
-	function defaultSetTimout() {
-	    throw new Error('setTimeout has not been defined');
-	}
-	function defaultClearTimeout () {
-	    throw new Error('clearTimeout has not been defined');
-	}
-	(function () {
-	    try {
-	        if (typeof setTimeout === 'function') {
-	            cachedSetTimeout = setTimeout;
-	        } else {
-	            cachedSetTimeout = defaultSetTimout;
-	        }
-	    } catch (e) {
-	        cachedSetTimeout = defaultSetTimout;
-	    }
-	    try {
-	        if (typeof clearTimeout === 'function') {
-	            cachedClearTimeout = clearTimeout;
-	        } else {
-	            cachedClearTimeout = defaultClearTimeout;
-	        }
-	    } catch (e) {
-	        cachedClearTimeout = defaultClearTimeout;
-	    }
-	} ())
-	function runTimeout(fun) {
-	    if (cachedSetTimeout === setTimeout) {
-	        //normal enviroments in sane situations
-	        return setTimeout(fun, 0);
-	    }
-	    // if setTimeout wasn't available but was latter defined
-	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-	        cachedSetTimeout = setTimeout;
-	        return setTimeout(fun, 0);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedSetTimeout(fun, 0);
-	    } catch(e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-	            return cachedSetTimeout.call(null, fun, 0);
-	        } catch(e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-	            return cachedSetTimeout.call(this, fun, 0);
-	        }
-	    }
-
-
-	}
-	function runClearTimeout(marker) {
-	    if (cachedClearTimeout === clearTimeout) {
-	        //normal enviroments in sane situations
-	        return clearTimeout(marker);
-	    }
-	    // if clearTimeout wasn't available but was latter defined
-	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-	        cachedClearTimeout = clearTimeout;
-	        return clearTimeout(marker);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedClearTimeout(marker);
-	    } catch (e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-	            return cachedClearTimeout.call(null, marker);
-	        } catch (e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-	            return cachedClearTimeout.call(this, marker);
-	        }
-	    }
-
-
-
-	}
-	var queue = [];
-	var draining = false;
-	var currentQueue;
-	var queueIndex = -1;
-
-	function cleanUpNextTick() {
-	    if (!draining || !currentQueue) {
-	        return;
-	    }
-	    draining = false;
-	    if (currentQueue.length) {
-	        queue = currentQueue.concat(queue);
-	    } else {
-	        queueIndex = -1;
-	    }
-	    if (queue.length) {
-	        drainQueue();
-	    }
-	}
-
-	function drainQueue() {
-	    if (draining) {
-	        return;
-	    }
-	    var timeout = runTimeout(cleanUpNextTick);
-	    draining = true;
-
-	    var len = queue.length;
-	    while(len) {
-	        currentQueue = queue;
-	        queue = [];
-	        while (++queueIndex < len) {
-	            if (currentQueue) {
-	                currentQueue[queueIndex].run();
-	            }
-	        }
-	        queueIndex = -1;
-	        len = queue.length;
-	    }
-	    currentQueue = null;
-	    draining = false;
-	    runClearTimeout(timeout);
-	}
-
-	process.nextTick = function (fun) {
-	    var args = new Array(arguments.length - 1);
-	    if (arguments.length > 1) {
-	        for (var i = 1; i < arguments.length; i++) {
-	            args[i - 1] = arguments[i];
-	        }
-	    }
-	    queue.push(new Item(fun, args));
-	    if (queue.length === 1 && !draining) {
-	        runTimeout(drainQueue);
-	    }
-	};
-
-	// v8 likes predictible objects
-	function Item(fun, array) {
-	    this.fun = fun;
-	    this.array = array;
-	}
-	Item.prototype.run = function () {
-	    this.fun.apply(null, this.array);
-	};
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	process.version = ''; // empty string to avoid regexp issues
-	process.versions = {};
-
-	function noop() {}
-
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-	process.umask = function() { return 0; };
-
-
-/***/ },
-/* 18 */
+/* 42 */
 /***/ function(module, exports) {
 
 	// shim for es5
@@ -1418,7 +1312,7 @@
 
 
 /***/ },
-/* 19 */
+/* 43 */
 /***/ function(module, exports) {
 
 	// http://stackoverflow.com/questions/1354064/how-to-convert-characters-to-html-entities-using-plain-javascript
@@ -1683,7 +1577,7 @@
 	module.exports  = entities;
 
 /***/ },
-/* 20 */
+/* 44 */
 /***/ function(module, exports) {
 
 	
@@ -1694,28 +1588,28 @@
 	}
 
 /***/ },
-/* 21 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var env = __webpack_require__(14);
-	var Lexer = __webpack_require__(22);
-	var Parser = __webpack_require__(23);
-	var config = __webpack_require__(20);
-	var _ = __webpack_require__(15);
-	var extend = __webpack_require__(25);
+	var env = __webpack_require__(40);
+	var Lexer = __webpack_require__(46);
+	var Parser = __webpack_require__(47);
+	var config = __webpack_require__(44);
+	var _ = __webpack_require__(41);
+	var extend = __webpack_require__(49);
 	var combine = {};
 	if(env.browser){
-	  var dom = __webpack_require__(26);
-	  var walkers = __webpack_require__(28);
-	  var Group = __webpack_require__(32);
+	  var dom = __webpack_require__(50);
+	  var walkers = __webpack_require__(52);
+	  var Group = __webpack_require__(56);
 	  var doc = dom.doc;
-	  combine = __webpack_require__(30);
+	  combine = __webpack_require__(54);
 	}
-	var events = __webpack_require__(33);
-	var Watcher = __webpack_require__(34);
-	var parse = __webpack_require__(35);
-	var filter = __webpack_require__(36);
+	var events = __webpack_require__(57);
+	var Watcher = __webpack_require__(58);
+	var parse = __webpack_require__(59);
+	var filter = __webpack_require__(60);
 
 
 	/**
@@ -2331,11 +2225,11 @@
 
 
 /***/ },
-/* 22 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(15);
-	var config = __webpack_require__(20);
+	var _ = __webpack_require__(41);
+	var config = __webpack_require__(44);
 
 	// some custom tag  will conflict with the Lexer progress
 	var conflictTag = {"}": "{", "]": "["}, map1, map2;
@@ -2688,14 +2582,14 @@
 
 
 /***/ },
-/* 23 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(15);
+	var _ = __webpack_require__(41);
 
-	var config = __webpack_require__(20);
-	var node = __webpack_require__(24);
-	var Lexer = __webpack_require__(22);
+	var config = __webpack_require__(44);
+	var node = __webpack_require__(48);
+	var Lexer = __webpack_require__(46);
 	var varName = _.varName;
 	var ctxName = _.ctxName;
 	var extName = _.extName;
@@ -3433,7 +3327,7 @@
 
 
 /***/ },
-/* 24 */
+/* 48 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -3496,7 +3390,7 @@
 
 
 /***/ },
-/* 25 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3509,7 +3403,7 @@
 	// License MIT (c) Dustin Diaz 2014
 	  
 	// inspired by backbone's extend and klass
-	var _ = __webpack_require__(15),
+	var _ = __webpack_require__(41),
 	  fnTest = /xy/.test(function(){"xy";}) ? /\bsupr\b/:/.*/,
 	  isFn = function(o){return typeof o === "function"};
 
@@ -3596,7 +3490,7 @@
 
 
 /***/ },
-/* 26 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -3612,9 +3506,9 @@
 
 
 	var dom = module.exports;
-	var env = __webpack_require__(14);
-	var _ = __webpack_require__(15);
-	var consts = __webpack_require__(27);
+	var env = __webpack_require__(40);
+	var _ = __webpack_require__(41);
+	var consts = __webpack_require__(51);
 	var tNode = document.createElement('div')
 	var addEvent, removeEvent;
 	var noop = function(){}
@@ -3990,7 +3884,7 @@
 
 
 /***/ },
-/* 27 */
+/* 51 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -4012,17 +3906,17 @@
 
 
 /***/ },
-/* 28 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var diffArray = __webpack_require__(29).diffArray;
-	var combine = __webpack_require__(30);
-	var animate = __webpack_require__(31);
-	var node = __webpack_require__(24);
-	var Group = __webpack_require__(32);
-	var dom = __webpack_require__(26);
-	var _ = __webpack_require__(15);
-	var consts = __webpack_require__(27);
+	var diffArray = __webpack_require__(53).diffArray;
+	var combine = __webpack_require__(54);
+	var animate = __webpack_require__(55);
+	var node = __webpack_require__(48);
+	var Group = __webpack_require__(56);
+	var dom = __webpack_require__(50);
+	var _ = __webpack_require__(41);
+	var consts = __webpack_require__(51);
 	var OPTIONS = consts.OPTIONS;
 
 
@@ -4625,10 +4519,10 @@
 
 
 /***/ },
-/* 29 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(15);
+	var _ = __webpack_require__(41);
 
 	function simpleDiff(now, old){
 	  var nlen = now.length;
@@ -4815,14 +4709,14 @@
 	}
 
 /***/ },
-/* 30 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// some nested  operation in ast 
 	// --------------------------------
 
-	var dom = __webpack_require__(26);
-	var animate = __webpack_require__(31);
+	var dom = __webpack_require__(50);
+	var animate = __webpack_require__(55);
 
 	var combine = module.exports = {
 
@@ -4925,13 +4819,13 @@
 
 
 /***/ },
-/* 31 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(15);
-	var dom  = __webpack_require__(26);
+	var _ = __webpack_require__(41);
+	var dom  = __webpack_require__(50);
 	var animate = {};
-	var env = __webpack_require__(14);
+	var env = __webpack_require__(40);
 
 
 	var 
@@ -5180,11 +5074,11 @@
 	module.exports = animate;
 
 /***/ },
-/* 32 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(15);
-	var combine = __webpack_require__(30)
+	var _ = __webpack_require__(41);
+	var combine = __webpack_require__(54)
 
 	function Group(list){
 	  this.children = list || [];
@@ -5214,12 +5108,12 @@
 
 
 /***/ },
-/* 33 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// simplest event emitter 60 lines
 	// ===============================
-	var _ = __webpack_require__(15);
+	var _ = __webpack_require__(41);
 	var API = {
 	  $on: function(event, fn, desc) {
 	    if(typeof event === "object" && event){
@@ -5306,12 +5200,12 @@
 	module.exports = Event;
 
 /***/ },
-/* 34 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(15);
-	var parseExpression = __webpack_require__(35).expression;
-	var diff = __webpack_require__(29);
+	var _ = __webpack_require__(41);
+	var parseExpression = __webpack_require__(59).expression;
+	var diff = __webpack_require__(53);
 	var diffArray = diff.diffArray;
 	var diffObject = diff.diffObject;
 
@@ -5602,12 +5496,12 @@
 	module.exports = Watcher;
 
 /***/ },
-/* 35 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var exprCache = __webpack_require__(14).exprCache;
-	var _ = __webpack_require__(15);
-	var Parser = __webpack_require__(23);
+	var exprCache = __webpack_require__(40).exprCache;
+	var _ = __webpack_require__(41);
+	var Parser = __webpack_require__(47);
 	module.exports = {
 	  expression: function(expr, simple){
 	    // @TODO cache
@@ -5624,7 +5518,7 @@
 
 
 /***/ },
-/* 36 */
+/* 60 */
 /***/ function(module, exports) {
 
 	
@@ -5692,15 +5586,15 @@
 
 
 /***/ },
-/* 37 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Regular
-	var _ = __webpack_require__(15);
-	var dom = __webpack_require__(26);
-	var animate = __webpack_require__(31);
-	var Regular = __webpack_require__(21);
-	var consts = __webpack_require__(27);
+	var _ = __webpack_require__(41);
+	var dom = __webpack_require__(50);
+	var animate = __webpack_require__(55);
+	var Regular = __webpack_require__(45);
+	var consts = __webpack_require__(51);
 	var namespaces = consts.NAMESPACE;
 	var OPTIONS = consts.OPTIONS
 	var STABLE = OPTIONS.STABLE;
@@ -5709,8 +5603,8 @@
 
 
 
-	__webpack_require__(38);
-	__webpack_require__(39);
+	__webpack_require__(62);
+	__webpack_require__(63);
 
 
 	module.exports = {
@@ -5821,16 +5715,16 @@
 
 
 /***/ },
-/* 38 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * event directive  bundle
 	 *
 	 */
-	var _ = __webpack_require__(15);
-	var dom = __webpack_require__(26);
-	var Regular = __webpack_require__(21);
+	var _ = __webpack_require__(41);
+	var dom = __webpack_require__(50);
+	var Regular = __webpack_require__(45);
 
 	Regular._addProtoInheritCache("event");
 
@@ -5905,14 +5799,14 @@
 	}
 
 /***/ },
-/* 39 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Regular
-	var _ = __webpack_require__(15);
-	var dom = __webpack_require__(26);
-	var Regular = __webpack_require__(21);
-	var OPTIONS = __webpack_require__(27).OPTIONS
+	var _ = __webpack_require__(41);
+	var dom = __webpack_require__(50);
+	var Regular = __webpack_require__(45);
+	var OPTIONS = __webpack_require__(51).OPTIONS
 	var STABLE = OPTIONS.STABLE;
 	var hasInput;
 
@@ -6119,14 +6013,14 @@
 
 
 /***/ },
-/* 40 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var // packages
-	  _ = __webpack_require__(15),
-	 animate = __webpack_require__(31),
-	 dom = __webpack_require__(26),
-	 Regular = __webpack_require__(21);
+	  _ = __webpack_require__(41),
+	 animate = __webpack_require__(55),
+	 dom = __webpack_require__(50),
+	 Regular = __webpack_require__(45);
 
 
 	var // variables
@@ -6358,10 +6252,10 @@
 
 
 /***/ },
-/* 41 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Regular = __webpack_require__(21);
+	var Regular = __webpack_require__(45);
 
 	/**
 	 * Timeout Module
@@ -6404,7 +6298,146 @@
 	Regular.plugin('$timeout', TimeoutModule);
 
 /***/ },
-/* 42 */
+/* 66 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./button.play.js": 67,
+		"./input.play.js": 72
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 66;
+
+
+/***/ },
+/* 67 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+
+	var _play = __webpack_require__(37);
+
+	var _play2 = _interopRequireDefault(_play);
+
+	var _Button = __webpack_require__(68);
+
+	var _Button2 = _interopRequireDefault(_Button);
+
+	__webpack_require__(70);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(0, _play2.default)(_Button2.default, module).name('Button')
+	// .displayName( 'MyAwesomeButton' )
+	.add('button with text', {
+		template: '\n\t\t\t<Button on-click="{ this.onPrimaryClick() }" primary sm>Click Me</Button>\n\t\t\t<Button on-click="{ this.onClick() }" sm>Click Me</Button>\n\t\t',
+		onPrimaryClick: function onPrimaryClick() {
+			this.$log('primary clicked');
+		},
+		onClick: function onClick() {
+			this.$log('clicked');
+		}
+	}).add('button disabled', {
+		template: '\n\t\t\t<Button disabled primary sm>Disabled</Button>\n\t\t\t<Button disabled sm>Disabled</Button>\n\t\t'
+	});
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36)(module)))
+
+/***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _regularjs = __webpack_require__(39);
+
+	var _regularjs2 = _interopRequireDefault(_regularjs);
+
+	var _nextTick = __webpack_require__(69);
+
+	var _nextTick2 = _interopRequireDefault(_nextTick);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Button = _regularjs2.default.extend({
+		template: '\n\t\t<button ref="b" class="r-button { primary ? \'r-button-primary\' : \'r-button-basic\' } { sm ? \'r-button-sm\' : \'\' } { disabled ? \'r-button-disabled\' : \'\' }" on-mouseup="{ this.onMouseUp( $event ) }">\n\t\t\t<div\n\t\t\t\tref="w"\n\t\t\t\tclass="r-button-wave  { pressed ? \'pressed\' : \'r-button-wave-hidden\' }"\n\t\t\t\tstyle="width: { waveWidth }px;height: { waveHeight }px;top: { waveTop }px;left: { waveLeft }px;"\n\t\t\t></div>\n\t\t\t<div class="r-button-text">\n\t\t\t\t{#inc this.$body}\n\t\t\t</div>\n\t\t</button>\n\t',
+		config: function config() {
+			this.data.ripple = this.data.ripple !== false;
+		},
+		init: function init() {
+			var _this = this;
+
+			var handleAnimationEnd = function handleAnimationEnd() {
+				if (_this.data.pressed !== false) {
+					_this.data.pressed = false;
+					_this.$update();
+				}
+			};
+
+			this.$refs.w && this.$refs.w.addEventListener('webkitAnimationEnd', handleAnimationEnd, false);
+
+			this.$on('$destroy', function () {
+				_this.$refs.w.removeEventListener('webkitAnimationEnd', handleAnimationEnd, false);
+			});
+		},
+		onMouseUp: function onMouseUp(e) {
+			var _this2 = this;
+
+			if (this.data.disabled) {
+				return;
+			}
+
+			this.$emit('click');
+
+			if (!this.data.ripple) {
+				return;
+			}
+
+			var target = this.$refs.b;
+			var pageX = e.pageX;
+			var pageY = e.pageY;
+			var scrollY = window.scrollY;
+
+			var rect = target.getBoundingClientRect();
+			var top = rect.top;
+			var left = rect.left;
+			var width = rect.width;
+
+			var offsetX = pageX - left;
+			var offsetY = pageY - top - scrollY;
+
+			this.data.waveTop = offsetY - width / 2;
+			this.data.waveLeft = offsetX - width / 2;
+			this.data.waveWidth = width;
+			this.data.waveHeight = width;
+
+			this.data.pressed = false;
+			this.$update();
+
+			(0, _nextTick2.default)(function () {
+				_this2.data.pressed = true;
+				_this2.$update();
+			});
+		}
+	});
+
+	exports.default = Button;
+
+/***/ },
+/* 69 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6492,27 +6525,27 @@
 	exports.default = nextTick;
 
 /***/ },
-/* 43 */
+/* 70 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 44 */,
-/* 45 */
+/* 71 */,
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
-	var _play = __webpack_require__(8);
+	var _play = __webpack_require__(37);
 
 	var _play2 = _interopRequireDefault(_play);
 
-	var _Input = __webpack_require__(46);
+	var _Input = __webpack_require__(73);
 
 	var _Input2 = _interopRequireDefault(_Input);
 
-	__webpack_require__(47);
+	__webpack_require__(74);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6522,10 +6555,10 @@
 			this.$log(v);
 		}
 	}).add('input disabled', '\n\t\t<Input sm disabled></Input>\n\t');
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36)(module)))
 
 /***/ },
-/* 46 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6534,7 +6567,7 @@
 		value: true
 	});
 
-	var _regularjs = __webpack_require__(13);
+	var _regularjs = __webpack_require__(39);
 
 	var _regularjs2 = _interopRequireDefault(_regularjs);
 
@@ -6557,7 +6590,7 @@
 	exports.default = Input;
 
 /***/ },
-/* 47 */
+/* 74 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
