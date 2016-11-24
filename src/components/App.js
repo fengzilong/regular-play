@@ -2,6 +2,7 @@ import Sidebar from './Sidebar';
 import Console from './Console';
 import Code from './Code';
 import Tabs from './Tabs';
+import LayoutSwitch from './LayoutSwitch';
 
 export default {
 	computed: {
@@ -10,22 +11,25 @@ export default {
 		logs: 'consoleMergedLogs',
 		isTabsOpened: 'isTabsOpened',
 		currentCode: 'currentCode',
+		layout: 'layout',
 	},
 	components: {
 		Sidebar,
 		Tabs,
 		Console,
 		Code,
+		LayoutSwitch,
 	},
 	template: `
-		<div class="app">
+		<div class="app { layout }">
 			<div class="sidebar-wrapper">
 				<Sidebar></Sidebar>
+				<LayoutSwitch></LayoutSwitch>
 			</div>
 
 			<div class="content">
 				<div class="main">
-					<iframe ref="v" src="./preview.html" frameborder="0"></iframe>
+					<iframe ref="v" src="{ layout === 'mobile' ? './mobile-preview.html' : './preview.html' }" frameborder="0"></iframe>
 				</div>
 
 				<div class="tabs-wrapper { isTabsOpened ? 'open' : '' }">
@@ -40,10 +44,12 @@ export default {
 							<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'clearLogs' ) }">&#xe603;</span>
 							{/if}
 
-							{#if isTabsOpened}
-							<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'toggleTabs' ) }">&#xe65a;</span>
-							{#else}
-							<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'toggleTabs' ) }">&#xe65c;</span>
+							{#if layout !== 'mobile'}
+								{#if isTabsOpened}
+								<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'toggleTabs' ) }">&#xe65a;</span>
+								{#else}
+								<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'toggleTabs' ) }">&#xe65c;</span>
+								{/if}
 							{/if}
 						</div>
 					</div>

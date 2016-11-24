@@ -14,6 +14,9 @@ export default {
 	toggleTabs( { commit } ) {
 		commit( 'layout/toggleTabs' );
 	},
+	changeLayout( { commit }, payload ) {
+		commit( 'layout/changeLayout', payload );
+	},
 	setCode( { commit }, payload ) {
 		commit( 'code/set', payload );
 	},

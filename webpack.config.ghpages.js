@@ -36,16 +36,19 @@ const baseConfig = {
 				exclude: /node_modules/,
 				loader: 'url-loader?limit=10240&name=[name].[ext]?[hash:8]'
 			},
+			{
+				test: /\.(jpg|jpeg|png|gif)$/,
+				exclude: /node_modules/,
+				loader: 'url-loader?limit=10240&name=[name].[ext]?[hash:8]'
+			},
 		]
 	},
-	postcss: function() {
-		return [ autoprefixer ]
-	},
+	postcss: [ autoprefixer ],
 	resolve: {
 		alias: {
 			'play-entry': _.cwd( './play/index.js' ),
 		},
-		extensions: [ '', '.js' ]
+		extensions: [ '', '.js' ],
 	},
 	externals: {},
 };
@@ -53,18 +56,23 @@ const baseConfig = {
 module.exports = Object.assign( {}, baseConfig, {
 	entry: {
 		app: _.cwd( 'entries/app.js' ),
-		preview: _.cwd( 'entries/preview.js' )
+		preview: _.cwd( 'entries/preview.js' ),
 	},
 	plugins: [
 		new HtmlWebpackPlugin( {
 			filename: 'index.html',
 			chunks: [ 'app' ],
-			template: 'src/template.html',
+			template: 'entries/template.html',
 		} ),
 		new HtmlWebpackPlugin( {
 			filename: 'preview.html',
 			chunks: [ 'preview' ],
-			template: 'src/template.html',
+			template: 'entries/template.html',
+		} ),
+		new HtmlWebpackPlugin( {
+			filename: 'mobile-preview.html',
+			chunks: [ 'preview' ],
+			template: 'entries/mobile-template.html',
 		} ),
 		new ExtractTextPlugin('[name]-[contenthash:8].css')
 	]
