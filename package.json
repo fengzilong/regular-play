@@ -4,9 +4,9 @@
   "description": "play with your regular components",
   "main": "dist/play.js",
   "scripts": {
-    "dev": "webpack --config ./webpack.config.ghpages.js -w",
-    "dist": "webpack",
-    "deploy": "webpack --config ./webpack.config.ghpages.js && node ./scripts/gh-pages.js"
+    "dev": "webpack --config ./scripts/webpack.config.ghpages.js -w",
+    "dist": "webpack --config ./scripts/webpack.config.js",
+    "deploy": "webpack --config ./scripts/webpack.config.ghpages.js && node ./scripts/gh-pages.js"
   },
   "repository": {
     "url": "git@github.com:fengzilong/regular-play.git",
