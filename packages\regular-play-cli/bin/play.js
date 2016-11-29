@@ -8,10 +8,10 @@ const pkg = require( '../package.json' );
 program
 	.version( pkg.version )
 	.option( '-p, --port <port>', 'port' )
-	.option( '-e, --entry <entry>', 'entry' )
+	.option( '-e, --entry <entry>', 'path to entry file' )
 	.option( '-d, --out-dir <dist>', 'dist' )
-	.option( '-t, --mobile-preview-template', '' )
-	.parse( process.argv );
+	.option( '-t, --mobile-preview-template <mobilePreviewTemplate>', 'preview template for mobile layout' )
+	.parse( process.argv )
 	;
 
 const port = program.port;
