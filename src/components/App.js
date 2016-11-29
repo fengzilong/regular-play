@@ -65,6 +65,7 @@ export default {
 		</div>
 	`,
 	init() {
+		this.dispatch( 'changeLayout', this.$router.current.param.layout || 'desktop' );
 		this.listenChild();
 		this.listenRoute();
 	},

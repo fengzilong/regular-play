@@ -6,6 +6,5 @@ export default {
 	consoleMergedLogs: state => state.console.mergedLogs,
 	isTabsOpened: state => state.layout.isTabsOpened,
 	layout: state => state.layout.layout,
-	layouts: state => state.layout.layouts,
 	currentCode: state => state.code.current,
 };
