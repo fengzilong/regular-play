@@ -12,6 +12,7 @@
     "url": "git@github.com:fengzilong/regular-play.git",
     "type": "git"
   },
+  "files": [ "dist" ],
   "author": "mo <feng_zilong@163.com>",
   "license": "MIT",
   "devDependencies": {
