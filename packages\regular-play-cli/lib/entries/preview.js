@@ -1,6 +1,5 @@
-import preview from 'regular-play/dist/preview';
-import p from 'play-entry';
-
-import 'regular-play/dist/preview.css';
+const preview = require( 'regular-play/dist/preview' ).default;
+const p = require( 'play-entry' );
+require( 'regular-play/dist/preview.css' );
 
 preview( p );
