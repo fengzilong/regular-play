@@ -10,13 +10,13 @@ play( Button, module )
 	.component( 'Input', Input )
 	.add( 'input and button', {
 		template: `
-			<Input value="{ name }" on-change="{ this.onNameChange( $event ) }"></Input>
+			<Input on-change="{ this.onNameChange( $event ) }"></Input>
 			<Button on-click="{ this.onSubmit() }" primary sm>Submit</Button>
 		`,
 		onNameChange( v ) {
-			this.data.name = v;
+			this.name = v;
 		},
 		onSubmit() {
-			this.$log( this.data.name );
+			this.$log( this.name );
 		},
 	} )
