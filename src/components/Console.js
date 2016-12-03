@@ -1,6 +1,9 @@
 export default {
 	template: `
-		<div class="console" ref="console">
+		<div class="console">
+			<div class="console-toolbar">
+				<span title="clear console" class="iconfont" on-click="{ this.dispatch( 'clearLogs' ) }">&#xe640;</span>
+			</div>
 			<div class="console-logs" ref="logs">
 				{#list logs as log}
 				<div class="console-log">
@@ -13,14 +16,10 @@ export default {
 			</div>
 		</div>
 	`,
-	config() {
-
-	},
 	init() {
 		this.$watch( 'logs', function() {
-			const $console = this.$refs.console;
 			const $logs = this.$refs.logs;
-			$console.scrollTop = $logs.offsetHeight;
+			$logs.scrollTop = $logs.scrollHeight;
 		} );
 	}
 };

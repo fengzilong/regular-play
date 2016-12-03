@@ -40,10 +40,6 @@ export default {
 							on-change="{ this.dispatch( 'switchTab', $event ) }"
 						></Tabs>
 						<div class="tabs-header__toolbar">
-							{#if selectedTabKey === 'console'}
-							<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'clearLogs' ) }">&#xe603;</span>
-							{/if}
-
 							{#if layout !== 'mobile'}
 								{#if isTabsOpened}
 								<span class="iconfont tabs-header__toolbar_icon" on-click="{ this.dispatch( 'toggleTabs' ) }">&#xe65a;</span>

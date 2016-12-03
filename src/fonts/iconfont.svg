@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <svg xmlns="http://www.w3.org/2000/svg">
 <metadata>
-Created by FontForge 20120731 at Sun Nov 13 20:58:57 2016
+Created by FontForge 20120731 at Sat Dec  3 15:45:35 2016
  By admin
 </metadata>
 <defs>
@@ -46,6 +46,9 @@ q5 5 5 12t-5 12v0zM882 637z" />
 d="M0 832v-896h1024v896h-1024zM960 0h-896v768h896v-768zM896 704h-768v-640h768v640zM448 384h-64v-64h-64v-64h-64v64h64v64h64v64h-64v64h-64v64h64v-64h64v-64h64v-64zM704 256h-192v64h192v-64z" />
     <glyph glyph-name="mini" unicode="&#xe65a;" 
 d="M742 358h-460q-11 0 -18.5 7.5t-7.5 18.5t7.5 18.5t18.5 7.5h460q11 0 18.5 -7.5t7.5 -18.5t-7.5 -18.5t-18.5 -7.5z" />
+    <glyph glyph-name="forbid" unicode="&#xe640;" 
+d="M512 817q-117 0 -216.5 -57.5t-157 -157t-57.5 -216.5t57.5 -216.5t157 -157.5t216.5 -58t216.5 58t157 157.5t57.5 216.5t-57.5 216.5t-157 157t-216.5 57.5v0zM836 386q0 -103 -60 -187l-451 451q84 60 187 60q88 0 162.5 -43.5t118 -118t43.5 -162.5v0zM188 386
+q0 104 61 188l451 -451q-84 -61 -188 -61q-88 0 -162.5 43.5t-118 118t-43.5 162.5v0zM188 386z" />
     <glyph glyph-name="max" unicode="&#xe65c;" 
 d="M89 810h61v-853h-61v853zM873 809h62v-852h-62v852zM100 810h835v-61h-835v61zM100 18h834v-61h-834v61z" />
   </font>

@@ -49,7 +49,7 @@ body {
 			}
 		}
 
-		/* Console */
+		/* Tabs Wrapper */
 		.tabs-wrapper {
 			width: 100%;
 			border-top: solid 1px #DDD;
@@ -60,7 +60,7 @@ body {
 				.tabs-body {
 					flex: 1;
 					overflow: hidden;
-					height: 170px;
+					height: 200px;
 				}
 			}
 
@@ -192,18 +192,31 @@ body {
 }
 
 .console {
+	display: flex;
+	flex-direction: column;
 	height: 100%;
-	overflow-y: auto;
-	padding: 0 10px;
 
-	.console-logs {
+	&-toolbar {
+		display: flex;
+		align-items: center;
+		height: 30px;
+		padding: 0 10px;
+		border-bottom: solid 1px #efefef;
+		cursor: default;
+	}
+
+	&-logs {
+		flex: 1;
+		padding: 0 10px;
+		overflow-y: auto;
+
 		.console-log {
 			border-bottom: solid 1px #efefef;
 			color: #f039b9;
 			height: 40px;
 			line-height: 40px;
 
-			.console-log_count {
+			&_count {
 				display: inline-block;
 				border-radius: 50%;
 				background-color: #BBDEFB;
