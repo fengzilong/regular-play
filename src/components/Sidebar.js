@@ -1,6 +1,7 @@
 export default {
 	computed: {
-		actors: 'actors'
+		actors: 'actors',
+		layout: 'layout',
 	},
 	template: `
 		<aside class="sidebar">
@@ -21,7 +22,7 @@ export default {
 		</aside>
 	`,
 	onNav( { displayName: name, description } ) {
-		const layout = this.$router.current.param.layout;
+		const layout = this.$get( 'layout' );
 
 		let targetUrl = `?name=${ encode( name ) }&description=${ encode( description ) }`;
 
