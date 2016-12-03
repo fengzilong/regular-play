@@ -2,7 +2,7 @@ export default {
 	template: `
 		<div class="console">
 			<div class="console-toolbar">
-				<span title="clear console" class="iconfont" on-click="{ this.dispatch( 'clearLogs' ) }">&#xe640;</span>
+				<span title="clear console" class="iconfont console-toolbar-item" on-click="{ this.dispatch( 'clearLogs' ) }">&#xe640;</span>
 			</div>
 			<div class="console-logs" ref="logs">
 				{#list logs as log}
