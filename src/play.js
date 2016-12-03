@@ -15,10 +15,22 @@ class Play {
 		this.Actor = Actor;
 		this.m = m;
 
+		this._components = {};
+
+		return this;
+	}
+	displayName( displayName ) {
+		this._displayName = displayName;
+
 		return this;
 	}
 	name( name ) {
-		this.name = name;
+		this._name = name;
+
+		return this;
+	}
+	component( name, Component ) {
+		this._components[ name ] = Component;
 
 		return this;
 	}
@@ -31,7 +43,7 @@ class Play {
 			return;
 		}
 
-		const actorName = this.name;
+		const actorName = this._name;
 		if ( typeof actorName === 'undefined' ) {
 			console.error( `please provide a name for ${ description } by .name( ... ) before adding it` );
 			return;
@@ -53,13 +65,20 @@ class Play {
 
 		// register Actor
 		Spot.component( actorName, Actor );
+		// register other components
+		const components = this._components;
+		Object.keys( components ).forEach( name => {
+			const Component = components[ name ];
+			Spot.component( name, Component );
+		} );
 
 		// expose
 		const m = this.m;
+		const displayName = this._displayName || actorName;
 		m.exports.actors = m.exports.actors || {};
-		m.exports.actors[ actorName ] = m.exports.actors[ actorName ] || [];
-		m.exports.actors[ actorName ].push( {
-			name: actorName, description, Spot, code
+		m.exports.actors[ displayName ] = m.exports.actors[ displayName ] || [];
+		m.exports.actors[ displayName ].push( {
+			displayName, name: actorName, description, Spot, code
 		} );
 
 		return this;

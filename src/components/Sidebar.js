@@ -10,7 +10,7 @@ export default {
 					<div class="sidebar-actor__title">{ spots_key }</div>
 					<ul class="sidebar-actor__spots">
 						{#list spots as spot}
-						<li class="sidebar-actor__spot { ( this.$router.current.param.name === spot.name && this.$router.current.param.description === spot.description ) ? 'active' : '' }">
+						<li class="sidebar-actor__spot { ( this.$router.current.param.name === spot.displayName && this.$router.current.param.description === spot.description ) ? 'active' : '' }">
 							<a href="javascript:;" on-click="{ this.onNav( spot ) }">{ spot.description }</a>
 						</li>
 						{/list}
@@ -20,7 +20,7 @@ export default {
 			</ul>
 		</aside>
 	`,
-	onNav( { name, description } ) {
+	onNav( { displayName: name, description } ) {
 		const layout = this.$router.current.param.layout;
 
 		let targetUrl = `?name=${ encode( name ) }&description=${ encode( description ) }`;
