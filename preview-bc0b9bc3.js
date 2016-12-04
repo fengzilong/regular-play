@@ -6303,8 +6303,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./button.play.js": 68,
-		"./input.play.js": 73
+		"./Button.play.js": 68,
+		"./Input.play.js": 73
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
