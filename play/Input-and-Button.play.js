@@ -19,4 +19,6 @@ play( Button, module )
 		onSubmit() {
 			this.$log( this.name );
 		},
+	}, {
+		backgroundColor: '#F2F2F2',
 	} )

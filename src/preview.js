@@ -25,8 +25,21 @@ export default function( { actors } ) {
 			}
 
 			const filtered = actors[ name ].filter( v => v.description === description );
-			const Spot = filtered[ 0 ] && filtered[ 0 ].Spot;
-			const code = filtered[ 0 ] && filtered[ 0 ].code;
+
+			if ( filtered.length === 0 ) {
+				return;
+			}
+
+			const Spot = filtered[ 0 ].Spot;
+			const code = filtered[ 0 ].code;
+			const options = filtered[ 0 ].options || {};
+
+			const backgroundColor = options.backgroundColor;
+			if ( backgroundColor ) {
+				document.documentElement.style.backgroundColor = backgroundColor;
+			} else {
+				document.documentElement.style.backgroundColor = '';
+			}
 
 			if ( Spot ) {
 				// clean

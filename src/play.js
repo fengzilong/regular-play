@@ -34,7 +34,7 @@ class Play {
 
 		return this;
 	}
-	add( description, template ) {
+	add( description, template, options ) {
 		// some checks
 		const isValidTemplate = typeof template === 'object' ||
 			typeof template === 'string';
@@ -78,7 +78,7 @@ class Play {
 		m.exports.actors = m.exports.actors || {};
 		m.exports.actors[ displayName ] = m.exports.actors[ displayName ] || [];
 		m.exports.actors[ displayName ].push( {
-			displayName, name: actorName, description, Spot, code
+			displayName, name: actorName, description, Spot, code, options
 		} );
 
 		return this;
