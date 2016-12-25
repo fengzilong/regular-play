@@ -1,4 +1,4 @@
-import getCtor from './utils/get-ctor';
+import Ctor from 'regularjs';
 
 export default function( Actor, m ) {
 	return new Play( Actor, m );
@@ -51,7 +51,6 @@ class Play {
 
 		// let's start
 		const Actor = this.Actor;
-		const Ctor = getCtor( Actor );
 
 		let Spot;
 		let code;

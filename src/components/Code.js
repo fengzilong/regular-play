@@ -1,8 +1,5 @@
 import deindent from 'de-indent';
-import hljs from 'highlight.js/lib/highlight';
-import hljsXML from 'highlight.js/lib/languages/xml';
-
-hljs.registerLanguage( 'xml', hljsXML );
+import highlight from '../utils/highlight';
 
 export default {
 	template: `
@@ -13,9 +10,7 @@ export default {
 	init() {
 		this.$watch( 'code', code => {
 			const $code = this.$refs.v;
-			$code.innerHTML = hljs.highlightAuto(
-				deindent( code ).trim()
-			).value;
+			$code.innerHTML = highlight( deindent( code ).trim() );
 		} );
 	},
 };

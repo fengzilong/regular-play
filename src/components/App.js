@@ -66,26 +66,27 @@ export default {
 		this.listenRoute();
 	},
 	listenChild() {
-		const onMessage = ( { data } ) => {
-			const { type, payload } = data;
-
-			if ( type === 'SET_ACTORS' ) {
-				this.dispatch( 'setActors', JSON.parse( payload ) );
-			} else if ( type === 'LOADED' ) {
-				// when iframe is loaded, sync route with iframe
-				this.onRouteChange();
-			} else if ( type === 'LOG' ) {
-				this.dispatch( 'log', payload );
-			} else if ( type === 'SET_CODE' ) {
-				this.dispatch( 'setCode', payload );
-			}
-		};
-
 		window.addEventListener( 'message', onMessage, false );
 
 		this.$on( '$destroy', () => {
 			window.removeEventListener( 'message', onMessage, false );
 		} );
+
+		var self = this;
+		function onMessage( { data } ) {
+			const { type, payload } = data;
+
+			if ( type === 'SET_ACTORS' ) {
+				self.dispatch( 'setActors', JSON.parse( payload ) );
+			} else if ( type === 'LOADED' ) {
+				// when iframe is loaded, sync route with iframe
+				self.onRouteChange();
+			} else if ( type === 'LOG' ) {
+				self.dispatch( 'log', payload );
+			} else if ( type === 'SET_CODE' ) {
+				self.dispatch( 'setCode', payload );
+			}
+		}
 	},
 	listenRoute() {
 		this.$router.on( 'end', this.onRouteChange.bind( this ) );
@@ -103,13 +104,14 @@ export default {
 			return decodeURIComponent( str );
 		}
 
+		// clear logs
+		this.dispatch( 'clearLogs' );
+
+		// send message to iframe
 		const iframeWindow = this.$refs.v.contentWindow;
 		iframeWindow.postMessage( {
 			type: 'ROUTE_UPDATE',
 			payload: { param }
 		}, '*' );
-
-		// clear logs
-		this.dispatch( 'clearLogs' );
 	},
 };

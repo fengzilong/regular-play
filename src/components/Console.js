@@ -10,12 +10,19 @@ export default {
 					{#if log.count > 1}
 					<span class="console-log_count">{ log.count }</span>
 					{/if}
-					{ log.content | json }
+					{ this.process( log.content ) }
 				</div>
 				{/list}
 			</div>
 		</div>
 	`,
+	process( content ) {
+		if ( typeof content === 'undefined' ) {
+			return 'undefined';
+		} else {
+			return JSON.stringify( content );
+		}
+	},
 	init() {
 		this.$watch( 'logs', function() {
 			const $logs = this.$refs.logs;
