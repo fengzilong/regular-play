@@ -1,3 +1,4 @@
+import Resizer from '../components/Resizer';
 import Sidebar from './Sidebar';
 import Console from './Console';
 import Code from './Code';
@@ -14,6 +15,7 @@ export default {
 		layout: 'layout',
 	},
 	components: {
+		Resizer,
 		Sidebar,
 		Tabs,
 		Console,
@@ -27,10 +29,14 @@ export default {
 				<LayoutSwitch></LayoutSwitch>
 			</div>
 
+			<Resizer vertical on-resize="{ this.onSidebarResize( $event ) }"></Resizer>
+
 			<div class="content">
 				<div class="main">
 					<iframe ref="v" src="{ layout === 'mobile' ? './mobile-preview.html' : './preview.html' }" frameborder="0"></iframe>
 				</div>
+
+				<Resizer></Resizer>
 
 				<div class="tabs-wrapper { isTabsOpened ? 'open' : '' }">
 					<div class="tabs-header">
@@ -60,6 +66,9 @@ export default {
 			</div>
 		</div>
 	`,
+	onSidebarResize( e ) {
+		// console.log( e );
+	},
 	init() {
 		this.dispatch( 'changeLayout', this.$router.current.param.layout || 'desktop' );
 		this.listenChild();

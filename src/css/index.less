@@ -1,3 +1,5 @@
+@import '../components/Resizer.less';
+
 html, body {
 	padding: 0;
 	margin: 0;
@@ -24,13 +26,13 @@ body {
 		flex-shrink: 0;
 		width: 230px;
 		height: 100vh;
-		border-right: solid 1px #DDD;
 		background-color: #F8F8F8;
 
 		.sidebar {
 			flex: 1;
 			height: 100%;
 			overflow: auto;
+			user-select: none;
 		}
 	}
 
@@ -53,7 +55,6 @@ body {
 		/* Tabs Wrapper */
 		.tabs-wrapper {
 			width: 100%;
-			border-top: solid 1px #DDD;
 			display: flex;
 			flex-direction: column;
 
@@ -67,7 +68,7 @@ body {
 			.tabs-header {
 				display: flex;
 				padding: 0 10px;
-				border-bottom: solid 1px #DDD;
+				border-bottom: solid 1px #EEE;
 				background-color: #F8F8F8;
 
 				.tabs {
@@ -106,7 +107,7 @@ body {
 
 		.tabs-wrapper {
 			border-top: none;
-			border-left: solid 1px #DDD;
+			border-left: solid 1px #EEE;
 		}
 	}
 }
@@ -165,6 +166,7 @@ body {
 	color: #333;
 	outline: none;
 	cursor: pointer;
+	user-select: none;
 
 	strong {
 		font-size: 15px;
