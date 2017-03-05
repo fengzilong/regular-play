@@ -36,7 +36,7 @@ export default {
 					<iframe ref="v" src="{ layout === 'mobile' ? './mobile-preview.html' : './preview.html' }" frameborder="0"></iframe>
 				</div>
 
-				<Resizer></Resizer>
+				<Resizer vertical="{ layout === 'mobile' }"></Resizer>
 
 				<div class="tabs-wrapper { isTabsOpened ? 'open' : '' }">
 					<div class="tabs-header">
