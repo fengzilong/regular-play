@@ -33,9 +33,9 @@ const baseConfig = {
 				loader: 'regular-loader',
 			},
 			{
-				test: /\.(ttf|woff|eot|svg)$/,
+				test: /\.(ttf|woff|eot|svg)(\?t=\d+)*$/,
 				exclude: /node_modules/,
-				loader: 'url-loader?limit=10240&name=[name].[ext]?[hash:8]'
+				loader: 'url-loader?limit=102400&name=[name].[ext]?[hash:8]'
 			},
 		]
 	},
