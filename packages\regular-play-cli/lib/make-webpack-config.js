@@ -10,8 +10,6 @@ module.exports = function( options ) {
 	const outputPath = options.dist;
 	const mobilePreviewTemplate = options.mobilePreviewTemplate;
 
-	console.log( require.resolve( 'regular-play' ) );
-
 	const config = merge.smart( baseConfig, {
 		// devtool: 'eval-source-map',
 		entry: {
