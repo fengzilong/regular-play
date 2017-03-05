@@ -11,7 +11,7 @@ module.exports = function( options ) {
 	const mobilePreviewTemplate = options.mobilePreviewTemplate;
 
 	const config = merge.smart( baseConfig, {
-		// devtool: 'eval-source-map',
+		devtool: 'eval-source-map',
 		entry: {
 			app: _.dir( './entries/app.js' ),
 			preview: [
