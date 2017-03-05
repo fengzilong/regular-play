@@ -32,7 +32,6 @@ export default {
 
 		function onMousemove( e ) {
 			if ( !isResizeStart ) {
-				console.log( 'return' );
 				return;
 			}
 
