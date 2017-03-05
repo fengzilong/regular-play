@@ -10,8 +10,10 @@ module.exports = function( options ) {
 	const outputPath = options.dist;
 	const mobilePreviewTemplate = options.mobilePreviewTemplate;
 
+	console.log( require.resolve( 'regular-play' ) );
+
 	const config = merge.smart( baseConfig, {
-		devtool: 'eval-source-map',
+		// devtool: 'eval-source-map',
 		entry: {
 			app: _.dir( './entries/app.js' ),
 			preview: [
@@ -56,6 +58,9 @@ module.exports = function( options ) {
 				filename: 'mobile-preview.html',
 				chunks: [ 'preview' ],
 				template: mobilePreviewTemplate,
+			} ),
+			new webpack.ProvidePlugin( {
+				play: _.dir( 'provide/regular-play.js' ),
 			} ),
 			new webpack.HotModuleReplacementPlugin(),
 		]

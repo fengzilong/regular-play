@@ -7,11 +7,11 @@ const baseConfig = {
 			},
 			{
 				test: /\.mcss$/,
-				loader: 'style-loader!css-loader!mcss-loader!postcss-loader',
+				loader: 'style-loader!css-loader!postcss-loader!mcss-loader',
 			},
 			{
 				test: /\.less$/,
-				loader: 'style-loader!css-loader!less-loader!postcss-loader',
+				loader: 'style-loader!css-loader!postcss-loader!less-loader',
 			},
 			{
 				test: /\.js$/,
@@ -28,17 +28,29 @@ const baseConfig = {
 				}
 			},
 			{
+				test: /\.rgl$/,
+				exclude: /node_modules/,
+				loader: 'regular-loader',
+			},
+			{
 				test: /\.(ttf|woff|eot|svg)$/,
 				exclude: /node_modules/,
 				loader: 'url-loader?limit=10240&name=[name].[ext]?[hash:8]'
 			},
 		]
 	},
+	regular: {
+		loaders: {
+			css: 'style!css',
+			less: 'style!css!less',
+			mcss: 'style!css!mcss',
+		}
+	},
 	postcss: [
 		require( 'autoprefixer' ),
 	],
 	resolve: {
-		extensions: [ '', '.js', '.less', '.mcss', '.css' ]
+		extensions: [ '', '.js', '.rgl', '.less', '.mcss', '.css' ]
 	},
 	externals: {},
 };
