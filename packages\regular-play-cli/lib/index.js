@@ -14,7 +14,9 @@ module.exports = function( options ) {
 	const port = options.port;
 	const entry = options.entry;
 	const dist = options.dist;
+	const previewTemplate = options.previewTemplate;
 	const mobilePreviewTemplate = options.mobilePreviewTemplate;
+	const resolveFallback = options.resolveFallback;
 
 	const webpackConfig = makeWebpackConfig( {
 		entry: entry
@@ -23,9 +25,15 @@ module.exports = function( options ) {
 		dist: dist
 			? _.cwd( dist )
 			: DEFAULT_DIST,
+		previewTemplate: previewTemplate
+			? _.cwd( previewTemplate )
+			: _.dir( './template.html' ),
 		mobilePreviewTemplate: mobilePreviewTemplate
 			? _.cwd( mobilePreviewTemplate )
 			: DEFAULT_MOBILE_PREVIEW_TEMPLATE,
+		resolveFallback: resolveFallback
+			? _.cwd( resolveFallback )
+			: [],
 	} );
 
 	server( webpackConfig, {
