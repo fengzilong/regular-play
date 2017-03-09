@@ -1,4 +1,3 @@
-import play from '../src/play';
 import Button from './Button';
 import './Button.less';
 
