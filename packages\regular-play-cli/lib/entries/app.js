@@ -1,5 +1,6 @@
-const app = require( 'regular-play/dist/app' ).default;
-require( 'regular-play/dist/app.css' );
+import app from 'regular-play/dist/app';
+
+import 'regular-play/dist/app.css';
 
 app();
 
