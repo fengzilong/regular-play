@@ -30,7 +30,6 @@ module.exports = function( options ) {
 				_.cwd( 'node_modules' ),
 			],
 			fallback: resolveFallback,
-			packageMains: [ 'play:main', 'jsnext:main', 'browser', 'main' ],
 		},
 		resolveLoader: {
 			alias: {
