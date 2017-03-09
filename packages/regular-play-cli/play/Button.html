@@ -1,0 +1,10 @@
+<button ref="b" class="r-button { primary ? 'r-button-primary' : 'r-button-basic' } { sm ? 'r-button-sm' : '' } { disabled ? 'r-button-disabled' : '' }" on-mouseup="{ this.onMouseUp( $event ) }">
+	<div
+		ref="w"
+		class="r-button-wave  { pressed ? 'pressed' : 'r-button-wave-hidden' }"
+		style="width: { waveWidth }px;height: { waveHeight }px;top: { waveTop }px;left: { waveLeft }px;"
+	></div>
+	<div class="r-button-text">
+		{#inc this.$body}
+	</div>
+</button>
