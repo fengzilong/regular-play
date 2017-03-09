@@ -23,17 +23,14 @@ module.exports = function( options ) {
 				'play-entry': _.cwd( playEntry ),
 			},
 			root: [
-				_.dir( '../node_modules' ),
+				_.dir( 'node_modules' ),
 				_.cwd( 'node_modules' ),
 			],
 		},
 		resolveLoader: {
 			alias: {
 				text: 'raw-loader'
-			},
-			root: [
-				_.dir( '../node_modules' ),
-			],
+			}
 		},
 		output: {
 			path: outputPath,

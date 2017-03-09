@@ -18,13 +18,8 @@ const baseConfig = {
 				exclude: /node_modules/,
 				loader: 'babel-loader',
 				query: {
-					babelrc: false,
-					presets: [
-						require.resolve( 'babel-preset-es2015' ),
-					],
-					plugins: [
-						require.resolve( 'babel-plugin-nej' ),
-					],
+					presets: [ 'es2015' ],
+					plugins: [ 'nej' ],
 				}
 			},
 			{
