@@ -1,4 +1,4 @@
-import { merge } from '../src/play';
+import { merge } from 'regular-play';
 
 const load = requireContext => {
 	return requireContext.keys().map( requireContext );
