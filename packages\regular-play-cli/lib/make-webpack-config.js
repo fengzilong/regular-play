@@ -8,7 +8,6 @@ const _ = require( './utils' );
 module.exports = function( options ) {
 	const playEntry = options.entry;
 	const outputPath = options.dist;
-	const mobilePreviewTemplate = options.mobilePreviewTemplate;
 
 	const config = merge.smart( baseConfig, {
 		devtool: 'eval-source-map',
@@ -51,11 +50,6 @@ module.exports = function( options ) {
 				filename: 'preview.html',
 				chunks: [ 'preview' ],
 				template: _.dir( './template.html' ),
-			} ),
-			new HtmlWebpackPlugin( {
-				filename: 'mobile-preview.html',
-				chunks: [ 'preview' ],
-				template: mobilePreviewTemplate,
 			} ),
 			new webpack.HotModuleReplacementPlugin(),
 		]
