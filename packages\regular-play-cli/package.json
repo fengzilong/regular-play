@@ -2,9 +2,9 @@
   "name": "regular-play-cli",
   "version": "0.0.0",
   "description": "cli for regular-play",
-  "main": "bin/cli.js",
+  "main": "cli.js",
   "bin": {
-    "play": "bin/cli.js"
+    "play": "cli.js"
   },
   "repository": {
     "url": "git@github.com:fengzilong/regular-play-cli.git",
