@@ -38,7 +38,7 @@ const baseConfig = {
 		require( 'autoprefixer' ),
 	],
 	resolve: {
-		extensions: [ '', '.js', '.less', '.mcss', '.css' ]
+		extensions: [ '', '.js' ]
 	},
 	externals: {},
 };
