@@ -8,9 +8,7 @@ const _ = require( './utils' );
 module.exports = function( options ) {
 	const playEntry = options.entry;
 	const outputPath = options.dist;
-	const previewTemplate = options.previewTemplate;
 	const mobilePreviewTemplate = options.mobilePreviewTemplate;
-	const resolveFallback = options.resolveFallback;
 
 	const config = merge.smart( baseConfig, {
 		devtool: 'eval-source-map',
@@ -29,7 +27,6 @@ module.exports = function( options ) {
 				_.dir( '../node_modules' ),
 				_.cwd( 'node_modules' ),
 			],
-			fallback: resolveFallback,
 		},
 		resolveLoader: {
 			alias: {
@@ -53,7 +50,7 @@ module.exports = function( options ) {
 			new HtmlWebpackPlugin( {
 				filename: 'preview.html',
 				chunks: [ 'preview' ],
-				template: previewTemplate,
+				template: _.dir( './template.html' ),
 			} ),
 			new HtmlWebpackPlugin( {
 				filename: 'mobile-preview.html',
