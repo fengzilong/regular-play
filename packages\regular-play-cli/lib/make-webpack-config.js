@@ -21,15 +21,6 @@ module.exports = function( options ) {
 		resolve: {
 			alias: {
 				'play-entry': _.cwd( playEntry ),
-			},
-			root: [
-				_.dir( 'node_modules' ),
-				_.cwd( 'node_modules' ),
-			],
-		},
-		resolveLoader: {
-			alias: {
-				text: 'raw-loader'
 			}
 		},
 		output: {
