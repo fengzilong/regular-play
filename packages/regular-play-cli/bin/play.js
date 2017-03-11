@@ -13,8 +13,7 @@ program
 	.option( '-t, --preview-template <previewTemplate>', 'preview template for pc layout' )
 	.option( '-m, --mobile-preview-template <mobilePreviewTemplate>', 'preview template for mobile layout' )
 	.option( '-f, --resolve-fallback <resolveFallback>', 'fallback to resolve your dependencies' )
-	.parse( process.argv )
-	;
+	.parse( process.argv );
 
 const port = program.port;
 const entry = program.entry;
