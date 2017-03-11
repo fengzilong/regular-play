@@ -20,4 +20,10 @@ export default {
 	setCode( { commit }, payload ) {
 		commit( 'code/set', payload );
 	},
+	resizeSidebar( { commit }, payload ) {
+		commit( 'layout/resizeSidebar', payload );
+	},
+	resizeTabs( { commit }, payload ) {
+		commit( 'layout/resizeTabs', payload );
+	},
 };

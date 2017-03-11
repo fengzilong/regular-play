@@ -13,6 +13,8 @@ export default {
 		isTabsOpened: 'isTabsOpened',
 		currentCode: 'currentCode',
 		layout: 'layout',
+		sidebarSize: 'sidebarSize',
+		tabsSize: 'tabsSize',
 	},
 	components: {
 		Resizer,
@@ -24,21 +26,40 @@ export default {
 	},
 	template: `
 		<div class="app { layout }">
-			<div class="sidebar-wrapper">
+			<div class="sidebar-wrapper" style="width: { sidebarSize }px">
 				<Sidebar></Sidebar>
 				<LayoutSwitch></LayoutSwitch>
 			</div>
 
-			<Resizer vertical on-resize="{ this.onSidebarResize( $event ) }"></Resizer>
+			<Resizer
+				on-resize-start="{ this.onSidebarResizeStart() }"
+				on-resize="{ this.onSidebarResize( $event ) }"
+				on-resize-end="{ isResizeStarted = false }"
+				vertical
+			></Resizer>
 
 			<div class="content">
 				<div class="main">
-					<iframe ref="v" src="{ layout === 'mobile' ? './mobile-preview.html' : './preview.html' }" frameborder="0"></iframe>
+					<iframe
+						ref="v"
+						src="{ layout === 'mobile' ? './mobile-preview.html' : './preview.html' }"
+						frameborder="0"
+					></iframe>
 				</div>
 
-				<Resizer vertical="{ layout === 'mobile' }"></Resizer>
+				<Resizer
+					on-resize-start="{ this.onTabsResizeStart() }"
+					on-resize="{ this.onTabsResize( $event ) }"
+					on-resize-end="{ isResizeStarted = false }"
+					vertical="{ layout === 'mobile' }"
+				></Resizer>
 
-				<div class="tabs-wrapper { isTabsOpened ? 'open' : '' }">
+				<div
+					class="tabs-wrapper { isTabsOpened ? 'open' : '' }"
+					{#if isTabsOpened || layout === 'mobile'}
+					style="{ layout === 'mobile' ? 'width' : 'height' } : { tabsSize }px"
+					{/if}
+				>
 					<div class="tabs-header">
 						<Tabs
 							source="{ tabsSource }"
@@ -65,14 +86,34 @@ export default {
 				</div>
 			</div>
 		</div>
+
+		{#if isResizeStarted}
+		<div class="drag-over-iframe-fix-overlay"></div>
+		{/if}
 	`,
-	onSidebarResize( e ) {
-		// console.log( e );
-	},
 	init() {
 		this.dispatch( 'changeLayout', this.$router.current.param.layout || 'desktop' );
 		this.listenChild();
 		this.listenRoute();
+	},
+	onSidebarResizeStart() {
+		this.initSidebarSize = this.$get( 'sidebarSize' );
+		this.data.isResizeStarted = true;
+	},
+	onSidebarResize( e ) {
+		this.dispatch( 'resizeSidebar', this.initSidebarSize + e.offsetX );
+	},
+	onTabsResizeStart() {
+		this.initTabsSize = this.$get( 'tabsSize' );
+		this.layout = this.$get( 'layout' );
+		this.data.isResizeStarted = true;
+	},
+	onTabsResize( e ) {
+		if ( this.layout === 'mobile' ) {
+			this.dispatch( 'resizeTabs', this.initTabsSize - e.offsetX );
+		} else {
+			this.dispatch( 'resizeTabs', this.initTabsSize - e.offsetY );
+		}
 	},
 	listenChild() {
 		window.addEventListener( 'message', onMessage, false );

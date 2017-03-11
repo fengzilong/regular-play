@@ -24,7 +24,7 @@ export default {
 				isResizeStart = true;
 				initPos.x = e.clientX;
 				initPos.y = e.clientY;
-				console.log( 'start' );
+				self.$emit( 'resize-start' );
 			} else {
 				isResizeStart = false;
 			}
@@ -43,6 +43,7 @@ export default {
 
 		function onMouseup() {
 			isResizeStart = false;
+			self.$emit( 'resize-end' );
 		}
 
 		this.$on( '$destroy', function () {
