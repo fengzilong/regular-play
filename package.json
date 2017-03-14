@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "dist": "lerna run dist",
     "publish": "lerna publish"
   },
   "devDependencies": {

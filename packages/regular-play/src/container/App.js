@@ -45,6 +45,9 @@ export default {
 						src="{ layout === 'mobile' ? './mobile-preview.html' : './preview.html' }"
 						frameborder="0"
 					></iframe>
+					{#if isResizeStarted}
+					<div class="drag-over-iframe-fix-overlay"></div>
+					{/if}
 				</div>
 
 				<Resizer
@@ -86,10 +89,6 @@ export default {
 				</div>
 			</div>
 		</div>
-
-		{#if isResizeStarted}
-		<div class="drag-over-iframe-fix-overlay"></div>
-		{/if}
 	`,
 	init() {
 		this.dispatch( 'changeLayout', this.$router.current.param.layout || 'desktop' );
