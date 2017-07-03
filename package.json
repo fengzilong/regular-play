@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "boot": "lerna bootstrap",
     "dist": "lerna run dist",
     "publish": "lerna publish"
   },

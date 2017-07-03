@@ -21,6 +21,14 @@ module.exports = function( options ) {
 				require.resolve( 'webpack-hot-middleware/client' ) + '?reload=true',
 			],
 		},
+		module: {
+			loaders: [
+				{
+					test: /\.html$/,
+					loader: 'html-loader',
+				}
+			]
+		},
 		resolve: {
 			alias: {
 				'play-entry': _.cwd( playEntry ),
