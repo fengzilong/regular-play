@@ -3,6 +3,7 @@
   "scripts": {
     "boot": "lerna bootstrap",
     "dist": "lerna run dist",
+    "deploy": "lerna run deploy",
     "publish": "lerna publish"
   },
   "devDependencies": {
