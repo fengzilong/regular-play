@@ -42,7 +42,7 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -58,12 +58,12 @@
 
 	(0, _preview2.default)(_playEntry2.default);
 
-/***/ },
+/***/ }),
 /* 1 */,
 /* 2 */,
 /* 3 */,
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var apply = Function.prototype.apply;
 
@@ -120,9 +120,9 @@
 	exports.clearImmediate = clearImmediate;
 
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
 	    "use strict";
@@ -313,9 +313,9 @@
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(6)))
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// shim for using process in browser
 	var process = module.exports = {};
@@ -487,6 +487,10 @@
 	process.removeListener = noop;
 	process.removeAllListeners = noop;
 	process.emit = noop;
+	process.prependListener = noop;
+	process.prependOnceListener = noop;
+
+	process.listeners = function (name) { return [] }
 
 	process.binding = function (name) {
 	    throw new Error('process.binding is not supported');
@@ -499,7 +503,7 @@
 	process.umask = function() { return 0; };
 
 
-/***/ },
+/***/ }),
 /* 7 */,
 /* 8 */,
 /* 9 */,
@@ -531,7 +535,7 @@
 /* 35 */,
 /* 36 */,
 /* 37 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -622,16 +626,16 @@
 
 	__webpack_require__(38);
 
-/***/ },
+/***/ }),
 /* 38 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 39 */,
 /* 40 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
@@ -646,9 +650,9 @@
 	(0, _play.merge)(plays, module);
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)(module)))
 
-/***/ },
+/***/ }),
 /* 41 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = function(module) {
 		if(!module.webpackPolyfill) {
@@ -662,9 +666,9 @@
 	}
 
 
-/***/ },
+/***/ }),
 /* 42 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -782,9 +786,9 @@
 		return Play;
 	}();
 
-/***/ },
+/***/ }),
 /* 43 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var env =  __webpack_require__(44);
 	var config = __webpack_require__(48); 
@@ -815,9 +819,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 44 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	// some fixture test;
 	// ---------------
@@ -833,9 +837,9 @@
 	exports.isRunning = false;
 
 
-/***/ },
+/***/ }),
 /* 45 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, setImmediate) {__webpack_require__(46)();
 
@@ -1277,9 +1281,9 @@
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(4).setImmediate))
 
-/***/ },
+/***/ }),
 /* 46 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// shim for es5
 	var slice = [].slice;
@@ -1385,9 +1389,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 47 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// http://stackoverflow.com/questions/1354064/how-to-convert-characters-to-html-entities-using-plain-javascript
 	var entities = {
@@ -1650,9 +1654,9 @@
 
 	module.exports  = entities;
 
-/***/ },
+/***/ }),
 /* 48 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	
 	module.exports = {
@@ -1661,9 +1665,9 @@
 	  'PRECOMPILE': false
 	}
 
-/***/ },
+/***/ }),
 /* 49 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	
 	var env = __webpack_require__(44);
@@ -2260,9 +2264,9 @@
 	})();
 
 
-/***/ },
+/***/ }),
 /* 50 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(45);
 	var config = __webpack_require__(48);
@@ -2617,9 +2621,9 @@
 	module.exports = Lexer;
 
 
-/***/ },
+/***/ }),
 /* 51 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(45);
 
@@ -3348,9 +3352,9 @@
 	module.exports = Parser;
 
 
-/***/ },
+/***/ }),
 /* 52 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = {
 	  element: function(name, attrs, children){
@@ -3410,9 +3414,9 @@
 	}
 
 
-/***/ },
+/***/ }),
 /* 53 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	// (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	// Backbone may be freely distributed under the MIT license.
@@ -3496,9 +3500,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 54 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	
 	// thanks for angular && mootools for some concise&cross-platform  implemention
@@ -3889,9 +3893,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 55 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = {
 	  'COMPONENT_TYPE': 1,
@@ -3902,9 +3906,9 @@
 	  }
 	}
 
-/***/ },
+/***/ }),
 /* 56 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var diffArray = __webpack_require__(57).diffArray;
 	var combine = __webpack_require__(58);
@@ -4508,9 +4512,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 57 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(45);
 
@@ -4698,9 +4702,9 @@
 	  diffObject: diffObject
 	}
 
-/***/ },
+/***/ }),
 /* 58 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	// some nested  operation in ast 
 	// --------------------------------
@@ -4809,9 +4813,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 59 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(45);
 	var dom  = __webpack_require__(54);
@@ -5063,9 +5067,9 @@
 
 	module.exports = animate;
 
-/***/ },
+/***/ }),
 /* 60 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(45);
 	var combine = __webpack_require__(58)
@@ -5097,9 +5101,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 61 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	// simplest event emitter 60 lines
 	// ===============================
@@ -5177,9 +5181,9 @@
 	}
 	module.exports = Event;
 
-/***/ },
+/***/ }),
 /* 62 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var _ = __webpack_require__(45);
 	var parseExpression = __webpack_require__(63).expression;
@@ -5435,9 +5439,9 @@
 
 	module.exports = Watcher;
 
-/***/ },
+/***/ }),
 /* 63 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var exprCache = __webpack_require__(44).exprCache;
 	var _ = __webpack_require__(45);
@@ -5457,9 +5461,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 64 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	
 	var f = module.exports = {};
@@ -5525,9 +5529,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 65 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	// Regular
 	var _ = __webpack_require__(45);
@@ -5651,9 +5655,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 66 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * event directive  bundle
@@ -5735,9 +5739,9 @@
 	  }
 	}
 
-/***/ },
+/***/ }),
 /* 67 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	// Regular
 	var _ = __webpack_require__(45);
@@ -5907,9 +5911,9 @@
 	}
 
 
-/***/ },
+/***/ }),
 /* 68 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var // packages
 	  _ = __webpack_require__(45),
@@ -6146,9 +6150,9 @@
 
 
 
-/***/ },
+/***/ }),
 /* 69 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var Regular = __webpack_require__(49);
 
@@ -6192,9 +6196,9 @@
 	Regular.plugin('timeout', TimeoutModule);
 	Regular.plugin('$timeout', TimeoutModule);
 
-/***/ },
+/***/ }),
 /* 70 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
 		"./Input-and-Button.play.js": 71,
@@ -6215,9 +6219,9 @@
 	webpackContext.id = 70;
 
 
-/***/ },
+/***/ }),
 /* 71 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
@@ -6252,9 +6256,9 @@
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)(module)))
 
-/***/ },
+/***/ }),
 /* 72 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -6336,9 +6340,9 @@
 
 	exports.default = Button;
 
-/***/ },
+/***/ }),
 /* 73 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -6424,16 +6428,16 @@
 
 	exports.default = nextTick;
 
-/***/ },
+/***/ }),
 /* 74 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 75 */,
 /* 76 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -6463,16 +6467,16 @@
 
 	exports.default = Input;
 
-/***/ },
+/***/ }),
 /* 77 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
+/***/ }),
 /* 78 */,
 /* 79 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
@@ -6503,9 +6507,9 @@
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)(module)))
 
-/***/ },
+/***/ }),
 /* 80 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
@@ -6529,5 +6533,5 @@
 	}).add('input disabled', '\n\t\t<Input sm disabled></Input>\n\t');
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)(module)))
 
-/***/ }
+/***/ })
 /******/ ]);
