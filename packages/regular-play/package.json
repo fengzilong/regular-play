@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack --config ./scripts/webpack.config.ghpages.js -w",
     "dist": "webpack --config ./scripts/webpack.config.js",
-    "deploy": "webpack --config ./scripts/webpack.config.ghpages.js && node ./scripts/gh-pages.js",
+    "deploy": "npm run dist && node ../regular-play-cli/bin/play --build --out-dir public",
     "prepublish": "npm run dist"
   },
   "repository": {

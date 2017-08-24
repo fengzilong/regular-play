@@ -5,7 +5,7 @@ const webpackHotMiddleware = require( 'webpack-hot-middleware' );
 const path = require( 'path' );
 const cwd = process.cwd();
 
-module.exports = function ( webpackConfig, options ) {
+module.exports = function serve( webpackConfig, options ) {
 	const app = express();
 
 	// use webpack-dev-middleware

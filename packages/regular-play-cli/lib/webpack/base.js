@@ -15,8 +15,8 @@ const baseConfig = {
 			},
 			{
 				test: /\.js$/,
-				exclude: /node_modules/,
 				loader: 'babel-loader',
+				exclude: /node_modules/,
 				query: {
 					babelrc: false,
 					presets: [
@@ -33,7 +33,7 @@ const baseConfig = {
 				loader: 'regular-loader',
 			},
 			{
-				test: /\.(ttf|woff|eot|svg)(\?t=\d+)*$/,
+				test: /\.(ttf|woff|eot|svg)(\?.+)*$/,
 				exclude: /node_modules/,
 				loader: 'url-loader?limit=102400&name=[name].[ext]?[hash:8]'
 			},

@@ -2,8 +2,17 @@ const webpack = require( 'webpack' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const merge = require( 'webpack-merge' );
 const path = require( 'path' );
-const baseConfig = require( './webpack-base-config' );
-const _ = require( './utils' );
+const baseConfig = require( './base' );
+const cwd = process.cwd();
+
+const _  = {
+	cwd: function( filepath ) {
+		return path.resolve( cwd, filepath );
+	},
+	dir: function( filepath ) {
+		return path.resolve( __dirname, filepath );
+	},
+};
 
 module.exports = function( options ) {
 	const playEntry = options.entry;
@@ -13,11 +22,11 @@ module.exports = function( options ) {
 	const resolveFallback = options.resolveFallback;
 
 	const config = merge.smart( baseConfig, {
-		devtool: 'eval-source-map',
+		// devtool: 'source-map',
 		entry: {
-			app: _.dir( './entries/app.js' ),
+			app: _.dir( '../entries/app.js' ),
 			preview: [
-				_.dir( './entries/preview.js' ),
+				_.dir( '../entries/preview.js' ),
 				require.resolve( 'webpack-hot-middleware/client' ) + '?reload=true',
 			],
 		},
@@ -25,7 +34,7 @@ module.exports = function( options ) {
 			loaders: [
 				{
 					test: /\.html$/,
-					loader: 'html-loader',
+					loader: 'raw-loader',
 				}
 			]
 		},
@@ -34,7 +43,7 @@ module.exports = function( options ) {
 				'play-entry': _.cwd( playEntry ),
 			},
 			root: [
-				_.dir( '../node_modules' ),
+				_.dir( '../../node_modules' ),
 				_.cwd( 'node_modules' ),
 			],
 			fallback: resolveFallback,
@@ -45,7 +54,7 @@ module.exports = function( options ) {
 				text: 'raw-loader'
 			},
 			root: [
-				_.dir( '../node_modules' ),
+				_.dir( '../../node_modules' ),
 			],
 		},
 		output: {
@@ -57,7 +66,7 @@ module.exports = function( options ) {
 			new HtmlWebpackPlugin( {
 				filename: 'index.html',
 				chunks: [ 'app' ],
-				template: _.dir( './template.html' ),
+				template: _.dir( '../index.html' ),
 			} ),
 			new HtmlWebpackPlugin( {
 				filename: 'preview.html',
@@ -70,7 +79,7 @@ module.exports = function( options ) {
 				template: mobilePreviewTemplate,
 			} ),
 			new webpack.ProvidePlugin( {
-				play: _.dir( 'provide/regular-play.js' ),
+				play: _.dir( '../provide/regular-play.js' ),
 			} ),
 			new webpack.HotModuleReplacementPlugin(),
 		]
