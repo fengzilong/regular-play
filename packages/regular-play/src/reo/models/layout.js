@@ -1,17 +1,17 @@
+const SIDEBAR_SIZE = 230
+const TABS_WIDTH_IN_MOBILE_MODE = window.innerWidth - SIDEBAR_SIZE - 360
+
 export default {
 	name: 'layout',
 	state: {
 		isTabsOpened: true,
-		layout: 'desktop',
-		sidebarSize: 230,
-		tabsSize: 230,
+		layout: __DEFAULT_LAYOUT__,
+		sidebarSize: SIDEBAR_SIZE,
+		tabsSize: __DEFAULT_LAYOUT__ === 'mobile' ? TABS_WIDTH_IN_MOBILE_MODE : 230,
 	},
 	reducers: {
 		toggleTabs( state ) {
 			state.isTabsOpened = !state.isTabsOpened;
-		},
-		changeLayout( state, layout ) {
-			state.layout = layout;
 		},
 		resizeSidebar( state, newSize ) {
 			if ( newSize < 230 ) {

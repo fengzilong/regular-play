@@ -7,7 +7,7 @@
     "play": "bin/cli.js"
   },
   "scripts": {
-    "play": "cd examples && node ../bin/cli build"
+    "play": "cd examples && node ../bin/cli"
   },
   "repository": {
     "url": "git@github.com:fengzilong/regular-play-cli.git",

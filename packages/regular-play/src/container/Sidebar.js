@@ -1,5 +1,5 @@
 export default {
-	computed: {
+	getters: {
 		actors: 'actors',
 		layout: 'layout',
 	},
@@ -30,9 +30,6 @@ export default {
 			return encodeURIComponent( str );
 		}
 
-		if ( layout ) {
-			targetUrl = `${ targetUrl }&layout=${ layout }`;
-		}
 		this.$router.nav( targetUrl );
 	},
 };

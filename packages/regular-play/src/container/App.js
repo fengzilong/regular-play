@@ -6,7 +6,7 @@ import Tabs from './Tabs';
 import LayoutSwitch from './LayoutSwitch';
 
 export default {
-	computed: {
+	getters: {
 		tabsSource: 'tabsSource',
 		selectedTabKey: 'selectedTabKey',
 		logs: 'consoleMergedLogs',
@@ -28,7 +28,6 @@ export default {
 		<div class="app { layout }">
 			<div class="sidebar-wrapper" style="width: { sidebarSize }px">
 				<Sidebar></Sidebar>
-				<LayoutSwitch></LayoutSwitch>
 			</div>
 
 			<Resizer
@@ -42,7 +41,7 @@ export default {
 				<div class="main">
 					<iframe
 						ref="v"
-						src="{ layout === 'mobile' ? './mobile-preview.html' : './preview.html' }"
+						src="./preview.html"
 						frameborder="0"
 					></iframe>
 					{#if isResizeStarted}
@@ -91,7 +90,6 @@ export default {
 		</div>
 	`,
 	init() {
-		this.dispatch( 'changeLayout', this.$router.current.param.layout || 'desktop' );
 		this.listenChild();
 		this.listenRoute();
 	},

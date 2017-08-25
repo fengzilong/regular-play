@@ -69,7 +69,8 @@ module.exports = function( options ) {
 				play: _.dir( '../hack/regular-play.js' ),
 			} ),
 			new webpack.DefinePlugin( {
-				__PLAY_ROOT__: JSON.stringify( _.cwd( 'play' ) )
+				__PLAY_ROOT__: JSON.stringify( _.cwd( 'play' ) ),
+				__DEFAULT_LAYOUT__: JSON.stringify( options.mobile ? 'mobile' : 'desktop' ),
 			} ),
 			new FriendlyErrorsWebpackPlugin( {
 				clearConsole: false,
