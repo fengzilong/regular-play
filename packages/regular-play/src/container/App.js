@@ -88,7 +88,9 @@ export default {
 						{#elseif selectedTabKey === 'code'}
 							<Code code="{ currentCode }"></Code>
 						{#elseif selectedTabKey === 'editor'}
-							<Editor props="{ currentProps }" data="{ currentData }" on-change="{ this.onEditorChange($event) }"></Editor>
+							{#if currentProps && currentData}
+								<Editor props="{ currentProps }" data="{ currentData }" on-change="{ this.onEditorChange($event) }"></Editor>
+							{/if}
 						{/if}
 					</div>
 				</div>

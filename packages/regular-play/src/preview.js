@@ -71,6 +71,11 @@ export default function( { actors } ) {
 							: {}
 					},
 				}, location.origin )
+			} else {
+				parent.postMessage( {
+					type: 'SET_PROPS',
+					payload: {},
+				}, location.origin )
 			}
 		} else if ( type === 'PROP_CHANGE' ) {
 			const target = previous.$refs && previous.$refs.play

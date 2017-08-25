@@ -7,7 +7,7 @@ play( Button, module )
 	.add( 'button with text', {
 		template: `
 			<Button ref="play" on-click="{ this.onPrimaryClick() }" type="primary" size="sm">Click Me</Button>
-			<Button on-click="{ this.onClick() }" sm>Click Me</Button>
+			<Button on-click="{ this.onClick() }" size="medium">Click Me</Button>
 		`,
 		onPrimaryClick() {
 			this.$log( 'primary clicked' );

@@ -186,12 +186,14 @@ body {
 .tabs {
 	display: flex;
 	font-size: 15px;
+	align-items: stretch;
 
 	.tab {
+		display: flex;
+		align-items: center;
 		color: #777;
-		height: 30px;
-		line-height: 30px;
 		text-decoration: none;
+		cursor: pointer;
 
 		&.selected {
 			color: #000;

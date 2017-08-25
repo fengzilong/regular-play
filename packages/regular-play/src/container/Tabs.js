@@ -2,9 +2,11 @@ export default {
 	template: `
 		<div class="tabs">
 			{#list source as s}
-			<a class="tab { selected === s.key ? 'selected' : '' }" href="javascript:;" on-click="{ this.onClick( s ) }">
-				<i class="iconfont">{ this.c( s.icon ) }</i> { s.label }
-			</a>
+			<div class="tab { selected === s.key ? 'selected' : '' }" href="javascript:;" on-click="{ this.onClick( s ) }">
+				<div>
+					<i class="iconfont">{ this.c( s.icon ) }</i> { s.label }
+				</div>
+			</div>
 			{/list}
 		</div>
 	`,
