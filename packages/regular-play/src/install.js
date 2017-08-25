@@ -48,7 +48,7 @@ function install(name, definition) {
 }
 
 export default function(definition) {
-	if ( definition.__after__ ) {
+	if ( !definition || definition.__after__ ) {
 		return definition;
 	}
 

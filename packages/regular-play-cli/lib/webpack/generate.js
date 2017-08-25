@@ -66,7 +66,7 @@ module.exports = function( options ) {
 				template: template,
 			} ),
 			new webpack.ProvidePlugin( {
-				play: _.dir( '../hack/regular-play.js' ),
+				play: require.resolve( 'regular-play' ),
 			} ),
 			new webpack.DefinePlugin( {
 				__PLAY_ROOT__: JSON.stringify( _.cwd( 'play' ) ),

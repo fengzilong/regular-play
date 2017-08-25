@@ -1,8 +1,9 @@
 import Input from './Input';
 import './Input.less';
 
-play( Input, module )
+play( module )
 	.name( 'Input' )
+	.component( 'Input', Input )
 	.add( 'input value changes', {
 		template: `
 			<Input sm value="some content..." on-change="{ this.onChange( $event ) }"></Input>

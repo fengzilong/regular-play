@@ -2,18 +2,18 @@ import Regular from 'regularjs';
 import install from './install';
 
 export default function( Actor, m ) {
-	return new Play( Actor, m );
+	const argsLen = arguments.length;
+	if ( argsLen === 2 ) {
+		return new Play( Actor, m );
+	} else if ( argsLen === 1 ) {
+		// play( mobile )
+		return new Play( null, Actor );
+	}
 }
-
-export const merge = function( modules, m ) {
-	m.exports.actors = modules.reduce( ( current, next ) => {
-		return Object.assign( {}, current, next.actors )
-	}, {} );
-};
 
 class Play {
 	constructor( Actor, m ) {
-		this.Actor = install( Actor );
+		this.Actor = Actor ? install( Actor ) : Actor;
 		this.m = m;
 
 		this._components = {};
@@ -31,7 +31,9 @@ class Play {
 		return this;
 	}
 	component( name, Component ) {
-		this._components[ name ] = install( Component );
+		if ( name && Component ) {
+			this._components[ name ] = install( Component );
+		}
 
 		return this;
 	}
@@ -41,20 +43,18 @@ class Play {
 			typeof scenario === 'string';
 		if ( !isValidTemplate ) {
 			return console.error(
-				`failed to add ${ JSON.stringify( description ) } with ${ scenario }`
+				`Failed to add ${ JSON.stringify( description ) } with ${ scenario }`
 			);
 		}
 
 		const actorName = this._name;
 		if ( typeof actorName === 'undefined' ) {
 			return console.error(
-				`please provide a name for ${ description } by .name( ... ) before adding it`
+				`Expect <name> for ${ description }`
 			);
 		}
 
 		// let's start
-		const Actor = this.Actor;
-
 		let Spot;
 		let code;
 		if ( typeof scenario === 'object' ) {
@@ -66,7 +66,11 @@ class Play {
 		}
 
 		// register main Actor
-		Spot.component( actorName, Actor );
+		const Actor = this.Actor;
+		if ( Actor ) {
+			Spot.component( actorName, Actor );
+		}
+
 		// register other components
 		const components = this._components;
 		Object.keys( components ).forEach( name => {
