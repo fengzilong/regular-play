@@ -50,5 +50,7 @@
     "webpack-hot-middleware": "^2.13.2",
     "webpack-merge": "^0.17.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "case-sensitive-paths-webpack-plugin": "^2.1.1"
+  }
 }

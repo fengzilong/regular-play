@@ -1,6 +1,7 @@
 const webpack = require( 'webpack' )
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' )
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const merge = require( 'webpack-merge' )
 const path = require( 'path' )
 const baseConfig = require( './base' )
@@ -75,6 +76,7 @@ module.exports = function( options ) {
 			new FriendlyErrorsWebpackPlugin( {
 				clearConsole: false,
 			} ),
+			new CaseSensitivePathsPlugin(),
 		]
 	} )
 
