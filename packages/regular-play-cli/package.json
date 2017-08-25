@@ -7,7 +7,7 @@
     "play": "bin/play.js"
   },
   "scripts": {
-    "play": "node ./bin/play --build"
+    "play": "node ./bin/play"
   },
   "repository": {
     "url": "git@github.com:fengzilong/regular-play-cli.git",

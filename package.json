@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "boot": "lerna bootstrap",
-    "dist": "lerna run dist",
-    "deploy": "lerna run deploy",
+    "boot": "cd packages/regular-play && rm -rf node_modules && cnpm i && cd ../regular-play-cli && rm -rf node_modules && cnpm i",
+    "dist": "lerna run dist && cp packages/regular-play/dist/* packages/regular-play-cli/node_modules/regular-play/dist",
+    "deploy": "npm run dist && lerna run deploy",
     "publish": "lerna publish"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
-import Ctor from 'regularjs';
+import Regular from 'regularjs';
+import install from './install';
 
 export default function( Actor, m ) {
 	return new Play( Actor, m );
@@ -12,7 +13,7 @@ export const merge = function( modules, m ) {
 
 class Play {
 	constructor( Actor, m ) {
-		this.Actor = Actor;
+		this.Actor = install( Actor );
 		this.m = m;
 
 		this._components = {};
@@ -30,23 +31,25 @@ class Play {
 		return this;
 	}
 	component( name, Component ) {
-		this._components[ name ] = Component;
+		this._components[ name ] = install( Component );
 
 		return this;
 	}
-	add( description, template, options ) {
+	add( description, scenario, options ) {
 		// some checks
-		const isValidTemplate = typeof template === 'object' ||
-			typeof template === 'string';
+		const isValidTemplate = typeof scenario === 'object' ||
+			typeof scenario === 'string';
 		if ( !isValidTemplate ) {
-			console.error( `failed to add ${ JSON.stringify( description ) } with ${ template }` );
-			return;
+			return console.error(
+				`failed to add ${ JSON.stringify( description ) } with ${ scenario }`
+			);
 		}
 
 		const actorName = this._name;
 		if ( typeof actorName === 'undefined' ) {
-			console.error( `please provide a name for ${ description } by .name( ... ) before adding it` );
-			return;
+			return console.error(
+				`please provide a name for ${ description } by .name( ... ) before adding it`
+			);
 		}
 
 		// let's start
@@ -54,15 +57,15 @@ class Play {
 
 		let Spot;
 		let code;
-		if ( typeof template === 'object' ) {
-			Spot = Ctor.extend( template );
-			code = template.template;
-		} else if ( typeof template === 'string' ) {
-			Spot = Ctor.extend( { template } );
-			code = template;
+		if ( typeof scenario === 'object' ) {
+			Spot = Regular.extend( scenario );
+			code = scenario.template;
+		} else if ( typeof scenario === 'string' ) {
+			Spot = Regular.extend( { template: scenario } );
+			code = scenario;
 		}
 
-		// register Actor
+		// register main Actor
 		Spot.component( actorName, Actor );
 		// register other components
 		const components = this._components;
