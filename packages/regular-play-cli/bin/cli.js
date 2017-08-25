@@ -37,9 +37,9 @@ cli
 		alias: 'p',
 		desc: 'Port'
 	} )
-	.option( 'out-dir', {
+	.option( 'dist', {
 		alias: 'd',
-		dist: 'Dist directory'
+		dist: 'Output directory'
 	} )
 	.option( 'template', {
 		alias: 't',
