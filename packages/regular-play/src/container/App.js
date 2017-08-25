@@ -49,12 +49,14 @@ export default {
 					{/if}
 				</div>
 
+				{#if isTabsOpened}
 				<Resizer
 					on-resize-start="{ this.onTabsResizeStart() }"
 					on-resize="{ this.onTabsResize( $event ) }"
 					on-resize-end="{ isResizeStarted = false }"
 					vertical="{ layout === 'mobile' }"
 				></Resizer>
+				{/if}
 
 				<div
 					class="tabs-wrapper { isTabsOpened ? 'open' : '' }"

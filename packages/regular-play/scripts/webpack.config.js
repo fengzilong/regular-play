@@ -21,8 +21,12 @@ const baseConfig = {
 	module: {
 		loaders: [
 			{
-				test: /\.(css|less)$/,
+				test: /\.(less)$/,
 				loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader!postcss-loader'),
+			},
+			{
+				test: /\.(css)$/,
+				loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader'),
 			},
 			{
 				test: /\.js$/,

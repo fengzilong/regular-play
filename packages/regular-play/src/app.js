@@ -7,6 +7,7 @@ import tabsModel from './reo/models/tabs';
 import layoutModel from './reo/models/layout';
 import codeModel from './reo/models/code';
 
+import 'balloon-css/balloon.css';
 import './css/index.less';
 import './fonts/iconfont.css';
 import './css/highlight.css';
