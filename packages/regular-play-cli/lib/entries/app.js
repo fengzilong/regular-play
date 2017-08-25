@@ -1,8 +1,8 @@
-const app = require( 'regular-play/dist/app' ).default;
-require( 'regular-play/dist/app.css' );
+const app = require( 'regular-play/dist/app' )
+require( 'regular-play/dist/app.css' )
 
-app();
+app()
 
 if ( !location.hash ) {
-	location.href = '#!/';
+	location.href = '#!/'
 }

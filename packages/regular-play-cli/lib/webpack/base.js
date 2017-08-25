@@ -53,6 +53,6 @@ const baseConfig = {
 		extensions: [ '', '.js', '.rgl', '.less', '.mcss', '.css' ]
 	},
 	externals: {},
-};
+}
 
-module.exports = baseConfig;
+module.exports = baseConfig

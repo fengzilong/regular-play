@@ -1,34 +1,31 @@
-const webpack = require( 'webpack' );
-const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
-const merge = require( 'webpack-merge' );
-const path = require( 'path' );
-const baseConfig = require( './base' );
-const cwd = process.cwd();
+const webpack = require( 'webpack' )
+const HtmlWebpackPlugin = require( 'html-webpack-plugin' )
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+const merge = require( 'webpack-merge' )
+const path = require( 'path' )
+const baseConfig = require( './base' )
+const cwd = process.cwd()
 
 const _  = {
 	cwd: function( filepath ) {
-		return path.resolve( cwd, filepath );
+		return path.resolve( cwd, filepath )
 	},
 	dir: function( filepath ) {
-		return path.resolve( __dirname, filepath );
+		return path.resolve( __dirname, filepath )
 	},
-};
+}
 
 module.exports = function( options ) {
-	const playEntry = options.entry;
-	const outputPath = options.dist;
-	const previewTemplate = options.previewTemplate;
-	const mobilePreviewTemplate = options.mobilePreviewTemplate;
-	const resolveFallback = options.resolveFallback;
+	const playEntry = options.entry
+	const outputPath = options.dist
+	const template = options.template
+	const resolveFallback = options.resolveFallback
 
 	const config = merge.smart( baseConfig, {
 		// devtool: 'source-map',
 		entry: {
 			app: _.dir( '../entries/app.js' ),
-			preview: [
-				_.dir( '../entries/preview.js' ),
-				require.resolve( 'webpack-hot-middleware/client' ) + '?reload=true',
-			],
+			preview: [ _.dir( '../entries/preview.js' ) ]
 		},
 		module: {
 			loaders: [
@@ -46,7 +43,7 @@ module.exports = function( options ) {
 				_.dir( '../../node_modules' ),
 				_.cwd( 'node_modules' ),
 			],
-			fallback: resolveFallback,
+			fallback: resolveFallback || [],
 			packageMains: [ 'play:main', 'jsnext:main', 'browser', 'main' ],
 		},
 		resolveLoader: {
@@ -71,19 +68,42 @@ module.exports = function( options ) {
 			new HtmlWebpackPlugin( {
 				filename: 'preview.html',
 				chunks: [ 'preview' ],
-				template: previewTemplate,
-			} ),
-			new HtmlWebpackPlugin( {
-				filename: 'mobile-preview.html',
-				chunks: [ 'preview' ],
-				template: mobilePreviewTemplate,
+				template: template,
 			} ),
 			new webpack.ProvidePlugin( {
-				play: _.dir( '../provide/regular-play.js' ),
+				play: _.dir( '../hack/regular-play.js' ),
 			} ),
-			new webpack.HotModuleReplacementPlugin(),
+			new FriendlyErrorsWebpackPlugin( {
+				clearConsole: false,
+			} ),
 		]
-	} );
+	} )
 
-	return config;
-};
+	if ( options.mode === 'development' ) {
+		config.plugins.push( new webpack.HotModuleReplacementPlugin() )
+		config.entry.preview.push( require.resolve( 'webpack-hot-middleware/client' ) + '?reload=true' )
+	}
+
+	if ( options.mode === 'production' ) {
+		config.plugins.push( new webpack.optimize.UglifyJsPlugin( {
+			sourceMap: false,
+			compressor: {
+				warnings: false,
+				conditionals: true,
+				unused: true,
+				comparisons: true,
+				sequences: true,
+				dead_code: true,
+				evaluate: true,
+				if_return: true,
+				join_vars: true,
+				negate_iife: false
+			},
+			output: {
+				comments: false
+			}
+		} ) )
+	}
+
+	return config
+}

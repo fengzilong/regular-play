@@ -4,10 +4,10 @@
   "description": "cli for regular-play",
   "main": "lib/index.js",
   "bin": {
-    "play": "bin/play.js"
+    "play": "bin/cli.js"
   },
   "scripts": {
-    "play": "node ./bin/play"
+    "play": "cd examples && node ../bin/cli"
   },
   "repository": {
     "url": "git@github.com:fengzilong/regular-play-cli.git",
@@ -16,18 +16,24 @@
   "author": "fengzilong <fengzilong1992@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "address": "^1.0.3",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-plugin-nej": "^0.0.5",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.18.0",
+    "cac": "^4.2.0",
+    "clipboardy": "^1.1.4",
+    "co": "^4.6.0",
     "css-loader": "^0.26.0",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.24.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "lodash": "^4.17.4",
     "mcss": "^0.5.1",
     "mcss-loader": "^1.0.1",
     "postcss": "^5.2.5",
@@ -38,6 +44,7 @@
     "regularjs": "^0.4.4",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "use-config": "^1.0.2",
     "webpack": "^1.13.3",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.2",
