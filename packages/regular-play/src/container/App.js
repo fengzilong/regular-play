@@ -3,7 +3,6 @@ import Sidebar from './Sidebar';
 import Console from './Console';
 import Code from './Code';
 import Tabs from './Tabs';
-import LayoutSwitch from './LayoutSwitch';
 
 export default {
 	getters: {
@@ -22,7 +21,6 @@ export default {
 		Tabs,
 		Console,
 		Code,
-		LayoutSwitch,
 	},
 	template: `
 		<div class="app { layout }">
