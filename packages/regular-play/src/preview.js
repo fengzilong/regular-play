@@ -14,8 +14,8 @@ export default function( { actors } ) {
 	};
 
 	let previous;
-	window.addEventListener( 'message', ( { data } ) => {
-		const { type, payload } = data;
+	window.addEventListener( 'message', ( { data } = {} ) => {
+		const { type, payload } = data || {};
 
 		if ( type === 'ROUTE_UPDATE' ) {
 			const { name, description } = payload.param;
@@ -60,13 +60,60 @@ export default function( { actors } ) {
 					payload: code,
 				}, location.origin );
 			}
+
+			if ( options && options.props ) {
+				parent.postMessage( {
+					type: 'SET_PROPS',
+					payload: {
+						props: normalizeProps( options.props ),
+						data: previous.$refs && previous.$refs.play
+							? previous.$refs.play.data
+							: {}
+					},
+				}, location.origin )
+			}
+		} else if ( type === 'PROP_CHANGE' ) {
+			const target = previous.$refs && previous.$refs.play
+			if ( target && payload.key ) {
+				target.data[ payload.key ] = payload.value;
+				target.$update();
+			}
 		}
 	}, false );
+}
 
-	function $log( message ) {
-		parent.postMessage( {
-			type: 'LOG',
-			payload: message,
-		}, location.origin );
+function $log( message ) {
+	parent.postMessage( {
+		type: 'LOG',
+		payload: message,
+	}, location.origin );
+}
+
+function normalizeProps( props = {} ) {
+	for ( const key in props ) {
+		const v = props[ key ]
+		if ( isString( v ) ) {
+			props[ key ] = { type: 'string' }
+		} else if ( isBoolean( v ) ) {
+			props[ key ] = { type: 'boolean' }
+		}
 	}
+
+	return props
+}
+
+function isString( v ) {
+	if ( !v ) {
+		return false
+	}
+
+	return v === String || v.type === 'string'
+}
+
+function isBoolean( v ) {
+	if ( !v ) {
+		return false
+	}
+
+	return v === Boolean || v.type === 'boolean'
 }

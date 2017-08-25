@@ -15,6 +15,8 @@ export default {
 		layout: 'layout',
 		sidebarSize: 'sidebarSize',
 		tabsSize: 'tabsSize',
+		currentProps: 'currentProps',
+		currentData: 'currentData',
 	},
 	components: {
 		Resizer,
@@ -86,7 +88,7 @@ export default {
 						{#elseif selectedTabKey === 'code'}
 							<Code code="{ currentCode }"></Code>
 						{#elseif selectedTabKey === 'editor'}
-							<Editor></Editor>
+							<Editor props="{ currentProps }" data="{ currentData }" on-change="{ this.onEditorChange($event) }"></Editor>
 						{/if}
 					</div>
 				</div>
@@ -136,6 +138,8 @@ export default {
 				self.dispatch( 'log', payload );
 			} else if ( type === 'SET_CODE' ) {
 				self.dispatch( 'setCode', payload );
+			} else if ( type === 'SET_PROPS' ) {
+				self.dispatch( 'setProps', payload );
 			}
 		}
 	},
@@ -157,12 +161,20 @@ export default {
 
 		// clear logs
 		this.dispatch( 'clearLogs' );
-
-		// send message to iframe
-		const iframeWindow = this.$refs.v.contentWindow;
-		iframeWindow.postMessage( {
+		this.sendMessage( {
 			type: 'ROUTE_UPDATE',
 			payload: { param }
-		}, '*' );
+		} );
 	},
+	sendMessage( message = {} ) {
+		// send message to iframe
+		const iframeWindow = this.$refs.v.contentWindow;
+		iframeWindow.postMessage( message, '*' );
+	},
+	onEditorChange( { key, value } ) {
+		this.sendMessage( {
+			type: 'PROP_CHANGE',
+			payload: { key, value }
+		} )
+	}
 };

@@ -6,6 +6,7 @@ import consoleModel from './reo/models/console';
 import tabsModel from './reo/models/tabs';
 import layoutModel from './reo/models/layout';
 import codeModel from './reo/models/code';
+import editorModel from './reo/models/editor';
 
 import 'balloon-css/balloon.css';
 import './css/index.less';
@@ -28,6 +29,8 @@ export default function( { actors = [] } = {} ) {
 	app.model( tabsModel );
 	app.model( layoutModel );
 	app.model( codeModel );
+	app.model( editorModel );
+
 	app.actions( actions );
 	app.getters( getters );
 	app.router( routes );

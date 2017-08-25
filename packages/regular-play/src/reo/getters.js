@@ -11,4 +11,6 @@ export default {
 	sidebarSize: state => state.layout.sidebarSize,
 	tabsResizeProp: state => state.layout.tabsResizeProp,
 	tabsSize: state => state.layout.tabsSize,
+	currentProps: state => state.editor.props,
+	currentData: state => state.editor.data,
 };
