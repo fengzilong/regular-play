@@ -16,13 +16,11 @@ const _  = {
 }
 
 module.exports = function( options ) {
-	const playEntry = options.entry
 	const outputPath = options.dist
 	const template = options.template
 	const resolveFallback = options.resolveFallback
 
 	const config = merge.smart( baseConfig, {
-		// devtool: 'source-map',
 		entry: {
 			app: _.dir( '../entries/app.js' ),
 			preview: [ _.dir( '../entries/preview.js' ) ]
@@ -36,9 +34,6 @@ module.exports = function( options ) {
 			]
 		},
 		resolve: {
-			alias: {
-				'play-entry': _.cwd( playEntry ),
-			},
 			root: [
 				_.dir( '../../node_modules' ),
 				_.cwd( 'node_modules' ),
@@ -72,6 +67,9 @@ module.exports = function( options ) {
 			} ),
 			new webpack.ProvidePlugin( {
 				play: _.dir( '../hack/regular-play.js' ),
+			} ),
+			new webpack.DefinePlugin( {
+				__PLAY_ROOT__: JSON.stringify( _.cwd( 'play' ) )
 			} ),
 			new FriendlyErrorsWebpackPlugin( {
 				clearConsole: false,
