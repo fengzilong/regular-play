@@ -1,7 +1,8 @@
 import Resizer from '../components/Resizer';
 import Sidebar from './Sidebar';
-import Console from './Console';
-import Code from './Code';
+import Console from './plugins/Console';
+import Code from './plugins/Code';
+import Editor from './plugins/Editor';
 import Tabs from './Tabs';
 
 export default {
@@ -21,6 +22,7 @@ export default {
 		Tabs,
 		Console,
 		Code,
+		Editor,
 	},
 	template: `
 		<div class="app { layout }">
@@ -78,9 +80,11 @@ export default {
 					</div>
 					<div class="tabs-body">
 						{#if selectedTabKey === 'console'}
-						<Console logs="{ logs }"></Console>
+							<Console logs="{ logs }"></Console>
 						{#elseif selectedTabKey === 'code'}
-						<Code code="{ currentCode }"></Code>
+							<Code code="{ currentCode }"></Code>
+						{#elseif selectedTabKey === 'editor'}
+							<Editor></Editor>
 						{/if}
 					</div>
 				</div>

@@ -34,7 +34,7 @@ const baseConfig = {
 				}
 			},
 			{
-				test: /\.(ttf|woff|eot|svg)$/,
+				test: /\.(ttf|woff|eot|svg)(\?.+)*$/,
 				exclude: /node_modules/,
 				loader: 'url-loader?limit=10240&name=[name].[ext]?[hash:8]'
 			},

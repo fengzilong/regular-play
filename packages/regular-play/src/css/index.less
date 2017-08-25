@@ -76,20 +76,22 @@ body {
 				display: flex;
 				padding: 0 15px;
 				border-bottom: solid 1px #EEE;
-				background-color: #F8F8F8;
+				background-color: #fff;
+				height: 40px;
 
 				.tabs {
 					flex: 1;
+					align-items: center;
 					user-select: none;
 				}
 
 				.tabs-header__toolbar {
+					display: flex;
+					align-items: center;
 					font-size: 18px;
 
 					.tabs-header__toolbar_icon {
-						display: inline-block;
-						height: 30px;
-						line-height: 30px;
+						display: block;
 						cursor: pointer;
 					}
 				}
@@ -115,7 +117,6 @@ body {
 
 		.tabs-wrapper {
 			border-top: none;
-			border-left: solid 1px #EEE;
 		}
 	}
 }
@@ -187,7 +188,7 @@ body {
 	font-size: 15px;
 
 	.tab {
-		color: #666;
+		color: #777;
 		height: 30px;
 		line-height: 30px;
 		text-decoration: none;

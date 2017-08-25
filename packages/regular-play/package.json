@@ -4,7 +4,7 @@
   "description": "play with your regular components",
   "main": "dist/play.js",
   "scripts": {
-    "dev": "webpack --config ./scripts/webpack.config.ghpages.js -w",
+    "dev": "webpack --config ./scripts/webpack.config.js -w",
     "dist": "webpack --config ./scripts/webpack.config.js",
     "ghpages": "node scripts/gh-pages",
     "deploy": "node ../regular-play-cli/bin/cli build --dist public && npm run ghpages",

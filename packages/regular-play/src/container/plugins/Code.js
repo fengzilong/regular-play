@@ -1,5 +1,5 @@
 import deindent from 'de-indent';
-import highlight from '../utils/highlight';
+import highlight from '../../utils/highlight';
 
 export default {
 	template: `
