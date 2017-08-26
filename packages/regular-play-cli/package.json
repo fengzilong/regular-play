@@ -1,6 +1,6 @@
 {
   "name": "regular-play-cli",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "cli for regular-play",
   "main": "lib/index.js",
   "bin": {
@@ -41,7 +41,7 @@
     "postcss-loader": "^1.1.1",
     "raw-loader": "^0.5.1",
     "regular-loader": "^0.1.4",
-    "regular-play": "^1.1.1",
+    "regular-play": "^1.1.2",
     "regularjs": "^0.4.4",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
