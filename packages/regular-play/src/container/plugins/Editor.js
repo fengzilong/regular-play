@@ -1,4 +1,5 @@
 import Input from '../../components/Input'
+import Number from '../../components/Number'
 import Switch from '../../components/Switch'
 import Select from '../../components/Select'
 import FormItem from '../../components/form-item'
@@ -6,6 +7,7 @@ import FormItem from '../../components/form-item'
 export default {
 	components: {
 		Input,
+		Number,
 		Switch,
 		Select,
 		FormItem,
@@ -15,6 +17,8 @@ export default {
 			switch ( v.type ) {
 				case 'string':
 					return 'Input'
+				case 'number':
+					return 'Number'
 				case 'boolean':
 					return 'Switch'
 				case 'enum':

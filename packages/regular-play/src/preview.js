@@ -99,6 +99,8 @@ function normalizeProps( props = {} ) {
 		const v = props[ key ]
 		if ( isString( v ) ) {
 			props[ key ] = { type: 'string' }
+		} else if ( isNumber( v ) ) {
+			props[ key ] = { type: 'number' }
 		} else if ( isBoolean( v ) ) {
 			props[ key ] = { type: 'boolean' }
 		}
@@ -113,6 +115,14 @@ function isString( v ) {
 	}
 
 	return v === String || v.type === 'string'
+}
+
+function isNumber( v ) {
+	if ( !v ) {
+		return false
+	}
+
+	return v === Number || v.type === 'number'
 }
 
 function isBoolean( v ) {
