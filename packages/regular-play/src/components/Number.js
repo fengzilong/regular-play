@@ -10,7 +10,9 @@ export default {
 		/>
 	`,
 	init() {
-		this.$refs.input.value = this.data.value;
+		if ( this.data.value != null ) {
+			this.$refs.input.value = this.data.value;
+		}
 	},
 	onInput() {
 		const value = this.$refs.input.value;

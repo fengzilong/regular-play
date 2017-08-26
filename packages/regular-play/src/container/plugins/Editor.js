@@ -33,7 +33,7 @@ export default {
 			{#if props}
 			{#list props as prop}
 				<FormItem title="{ prop_key }">
-					<r-component is="{ prop | c }" value="{ data[ prop_key ] || '' }" list="{ prop.list || [] }" on-emit="{ this.onEmit(prop_key, $event) }" />
+					<r-component is="{ prop | c }" value="{ data[ prop_key ] }" list="{ prop.list || [] }" on-emit="{ this.onEmit(prop_key, $event) }" />
 				</FormItem>
 			{/list}
 			{/if}
