@@ -1,23 +1,19 @@
-import './Input.less';
+import './Input.less'
 
 export default {
 	template: `
 		<input
-			spellcheck="false"
-			class="ui-input"
 			ref="input"
+			value="{ value }"
+			class="ui-input"
+			spellcheck="false"
 			on-input="{ this.onInput() }"
 		/>
 	`,
-	init() {
-		if ( this.data.value != null ) {
-			this.$refs.input.value = this.data.value;
-		}
-	},
 	onInput() {
-		const value = this.$refs.input.value;
+		const value = this.$refs.input.value
 		setTimeout( () => {
-			this.$emit( 'emit', value );
+			this.$emit( 'emit', value )
 		}, 0 )
 	},
-};
+}

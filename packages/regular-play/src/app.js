@@ -1,4 +1,5 @@
 import reo from 'reo';
+import logger from 'reo/logger';
 import actions from './reo/actions';
 import getters from './reo/getters';
 import routes from './reo/routes';
@@ -15,6 +16,8 @@ import './css/highlight.css';
 
 export default function( { actors = [] } = {} ) {
 	const app = reo();
+
+	// app.use( logger() );
 
 	app.model( {
 		name: 'app',

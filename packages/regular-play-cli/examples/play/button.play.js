@@ -8,6 +8,7 @@ play( Button, module )
 		template: `
 			<Button
 				ref="play"
+				n="{ 1 }"
 				type="primary"
 				size="sm"
 				text="Click Me"
@@ -36,7 +37,8 @@ play( Button, module )
 			},
 			text: {
 				type: 'string'
-			}
+			},
+			n: Number
 		}
 	} )
 	.add( 'button disabled', {

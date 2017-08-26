@@ -1,23 +1,22 @@
-import './Input.less';
+import './Input.less'
 
 export default {
 	template: `
 		<input
-			spellcheck="false"
-			class="ui-input"
 			ref="input"
+			type="number"
+			value="{ value }"
+			class="ui-input"
+			spellcheck="false"
 			on-input="{ this.onInput() }"
 		/>
 	`,
-	init() {
-		if ( this.data.value != null ) {
-			this.$refs.input.value = this.data.value;
-		}
-	},
 	onInput() {
-		const value = this.$refs.input.value;
+		const value = this.$refs.input.value
 		setTimeout( () => {
-			this.$emit( 'emit', parseFloat( value ) );
+			let v = parseFloat( value )
+			v = isNaN( v ) ? '' : v
+			this.$emit( 'emit', v )
 		}, 0 )
 	},
-};
+}
