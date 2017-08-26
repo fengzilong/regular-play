@@ -6,7 +6,13 @@ play( Button, module )
 	// .displayName( 'MyAwesomeButton' )
 	.add( 'button with text', {
 		template: `
-			<Button ref="play" on-click="{ this.onPrimaryClick() }" type="primary" size="sm">Click Me</Button>
+			<Button
+				ref="play"
+				type="primary"
+				size="sm"
+				text="Click Me"
+				on-click="{ this.onPrimaryClick() }"
+			></Button>
 			<Button on-click="{ this.onClick() }" size="medium">Click Me</Button>
 		`,
 		onPrimaryClick() {
@@ -25,6 +31,12 @@ play( Button, module )
 				type: 'enum',
 				list: [ 'basic', 'primary' ],
 			},
+			disabled: {
+				type: 'boolean',
+			},
+			text: {
+				type: 'string'
+			}
 		}
 	} )
 	.add( 'button disabled', {

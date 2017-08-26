@@ -1,13 +1,18 @@
-import './Input.less';
+import './Switch.less'
 
 export default {
 	template: `
-		<input type="checkbox" value="{ value }" />
+		<span
+			class="ui-switch { value ? 'ui-switch--checked' : '' }"
+			on-click="{ this.onToggle() }"
+		>
+			<span class="ui-switch__block"></span>
+		</span>
 	`,
-	init() {
+	onToggle() {
+		this.data.value = !this.data.value
+		this.$update()
 
+		this.$emit( 'emit', this.data.value )
 	},
-	onChange() {
-
-	},
-};
+}
