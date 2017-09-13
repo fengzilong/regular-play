@@ -11,9 +11,9 @@ const _  = {
 	cwd: function( filepath ) {
 		return path.resolve( cwd, filepath )
 	},
-	dir: function( filepath ) {
-		return path.resolve( __dirname, filepath )
-	},
+	project: function ( filepath ) {
+		return path.resolve( __dirname, '../../', filepath )
+	}
 }
 
 module.exports = function( options ) {
@@ -23,8 +23,8 @@ module.exports = function( options ) {
 
 	const config = merge.smart( baseConfig, {
 		entry: {
-			app: _.dir( '../entries/app.js' ),
-			preview: [ _.dir( '../entries/preview.js' ) ]
+			app: _.project( 'lib/entries/app.js' ),
+			preview: [ _.project( 'lib/entries/preview.js' ) ]
 		},
 		module: {
 			loaders: [
@@ -36,7 +36,7 @@ module.exports = function( options ) {
 		},
 		resolve: {
 			root: [
-				_.dir( '../../node_modules' ),
+				_.project( 'node_modules' ),
 				_.cwd( 'node_modules' ),
 			],
 			fallback: resolveFallback || [],
@@ -47,7 +47,7 @@ module.exports = function( options ) {
 				text: 'raw-loader'
 			},
 			root: [
-				_.dir( '../../node_modules' ),
+				_.project( 'node_modules' ),
 			],
 		},
 		output: {
@@ -59,7 +59,7 @@ module.exports = function( options ) {
 			new HtmlWebpackPlugin( {
 				filename: 'index.html',
 				chunks: [ 'app' ],
-				template: _.dir( '../index.html' ),
+				template: _.project( 'lib/index.html' ),
 			} ),
 			new HtmlWebpackPlugin( {
 				filename: 'preview.html',

@@ -1,5 +1,5 @@
-import Input from './Input';
-import './Input.less';
+import Input from '../components/Input';
+import '../components/Input.less';
 
 play( module )
 	.name( 'Input' )

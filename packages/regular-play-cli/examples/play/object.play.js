@@ -1,4 +1,4 @@
-import O from './object';
+import O from '../components/object';
 
 play( O, module )
 	.name( 'O' )

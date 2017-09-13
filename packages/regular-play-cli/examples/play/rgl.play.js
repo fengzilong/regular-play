@@ -1,4 +1,4 @@
-import RGL from './RGL';
+import RGL from '../components/RGL';
 
 play( RGL, module )
 	.name( 'RGL' )

@@ -1,5 +1,5 @@
-import Button from './Button';
-import './Button.less';
+import Button from '../components/Button';
+import '../components/Button.less';
 
 play( Button, module )
 	.name( 'Button' )
