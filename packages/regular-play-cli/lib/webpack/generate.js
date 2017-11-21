@@ -38,6 +38,7 @@ module.exports = function( options ) {
 			root: [
 				_.project( 'node_modules' ),
 				_.cwd( 'node_modules' ),
+				_.cwd( 'play/node_modules' ),
 			],
 			fallback: resolveFallback || [],
 			packageMains: [ 'play:main', 'jsnext:main', 'browser', 'main' ],
