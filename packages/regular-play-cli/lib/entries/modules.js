@@ -1,4 +1,4 @@
-const plays = load( require.context( __PLAY_ROOT__, true, /\.play\.js$/ ) )
+const plays = load( require.context( __PLAY_ROOT__, false, /\.play\.js$/ ) )
 
 module.exports.actors = merge( plays )
 
