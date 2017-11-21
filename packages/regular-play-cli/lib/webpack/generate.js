@@ -37,10 +37,12 @@ module.exports = function( options ) {
 		resolve: {
 			root: [
 				_.project( 'node_modules' ),
-				_.cwd( 'node_modules' ),
-				_.cwd( 'play/node_modules' ),
+				_.cwd( 'node_modules' )
 			],
-			fallback: resolveFallback || [],
+			fallback: [].push.apply(
+				[ _.cwd( 'play/node_modules' ) ],
+				resolveFallback || []
+			),
 			packageMains: [ 'play:main', 'jsnext:main', 'browser', 'main' ],
 		},
 		resolveLoader: {
