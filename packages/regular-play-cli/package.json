@@ -1,6 +1,6 @@
 {
   "name": "regular-play-cli",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "cli for regular-play",
   "main": "lib/index.js",
   "bin": {
