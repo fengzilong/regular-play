@@ -19,7 +19,14 @@ const _  = {
 module.exports = function( options ) {
 	const outputPath = options.dist
 	const template = options.template
-	const resolveFallback = options.resolveFallback
+	const resolveFallback = typeof options.resolveFallback === 'string'
+		? [ options.resolveFallback ]
+		: ( options.resolveFallback || [] )
+
+	const fallback = [].push.apply(
+		[ _.cwd( 'play/node_modules' ) ],
+		resolveFallback
+	)
 
 	const config = merge.smart( baseConfig, {
 		entry: {
@@ -39,10 +46,7 @@ module.exports = function( options ) {
 				_.project( 'node_modules' ),
 				_.cwd( 'node_modules' )
 			],
-			fallback: [].push.apply(
-				[ _.cwd( 'play/node_modules' ) ],
-				resolveFallback || []
-			),
+			fallback: fallback,
 			packageMains: [ 'play:main', 'jsnext:main', 'browser', 'main' ],
 		},
 		resolveLoader: {
