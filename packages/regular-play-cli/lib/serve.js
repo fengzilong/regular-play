@@ -30,10 +30,16 @@ module.exports = function serve( webpackConfig, options ) {
 
 	devMiddleware.waitUntilValid( function () {
 		const url = `http://${ address.ip() }:${ options.port }`
-		clipboardy.writeSync( url )
-		console.log( '\n' )
-		console.log( `> Open ${ url }(copied)` );
-		console.log( '\n' )
+		clipboardy.write( url )
+			.then( () => {
+				console.log( '\n' )
+				console.log( `> Open ${ url }(copied)` )
+				console.log( '\n' )
+			}, function () {
+				console.log( '\n' )
+				console.log( `> Open ${ url }(copy failed)` )
+				console.log( '\n' )
+			} )
 	} )
 
 	return app
